@@ -14,7 +14,7 @@ import static java.lang.System.exit;
 
 public class Parametros {
 
-    private int puesto = 1;
+    private int puesto = 26;
     private static String version = "Versión 1.0 dwGlory";
     private boolean modoDebug = false;
     private String port = "5432";
@@ -22,10 +22,11 @@ public class Parametros {
     private String base = "dw";
     private String user = "glory";
     private String password = "admin";
-    private String table = "conteopar2";
+    private String table = "conteo600";
     private String serialPort = "COM1";
     private String patern = "";
     private String modeOperacion = "AUTO";
+	private String path = "http://172.21.32.60:4000";
 
     public void setPuesto(int puesto){
         this.puesto = puesto;
@@ -114,6 +115,14 @@ public class Parametros {
     public void setModeOperacion(String modeOperacion) {
         this.modeOperacion = modeOperacion;
     }
+    
+    public String getPath() {
+    	return this.path;
+    }
+
+    public void setPath(String path) {
+    	this.path = path;
+    }
 
     public void showParms(){
         System.out.println("Parametros configurados: ");
@@ -124,6 +133,7 @@ public class Parametros {
         System.out.println("Usuario: " + this.getUser());
         System.out.println("Password: *******");
         System.out.println("Table: " + this.getTable());
+        System.out.println("Path server: " + this.getPath());
     }
     
    public void leerParametros() {
@@ -218,4 +228,7 @@ public class Parametros {
            }
         
    }
+
+
+
 }

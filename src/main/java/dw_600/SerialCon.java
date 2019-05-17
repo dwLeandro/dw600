@@ -22,14 +22,17 @@ public class SerialCon {
 
     public OutputStream outStream;
     public InputStream inStream;
+    public SerialPort serialPort;
 
 
     boolean connect ( String portName ) throws Exception
     {
         CommPortIdentifier portIdentifier = CommPortIdentifier.getPortIdentifier(portName);
+      
         if ( portIdentifier.isCurrentlyOwned() )
         {
             System.out.println("Error: Port is currently in use");
+           
         }
         else
         {
@@ -37,7 +40,7 @@ public class SerialCon {
             
             if ( commPort instanceof SerialPort )
             {
-                SerialPort serialPort = (SerialPort) commPort;
+                serialPort = (SerialPort) commPort;
                 serialPort.setSerialPortParams(9600,SerialPort.DATABITS_8,SerialPort.STOPBITS_1,SerialPort.PARITY_EVEN);
                 
                 this.inStream = serialPort.getInputStream();
@@ -141,5 +144,10 @@ public class SerialCon {
         }
         
         return false;
-    }   
+    }
+     
+    public void close() {
+    	
+        serialPort.close();
+    }
 }

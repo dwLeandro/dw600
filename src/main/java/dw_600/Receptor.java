@@ -14,12 +14,16 @@ import java.io.FileDescriptor;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.math.BigInteger;
 
 import gnu.io.CommPortIdentifier;
 import static java.lang.System.exit;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
+
+import com.sun.javafx.sg.prism.NGShape.Mode;
+
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -31,6 +35,7 @@ public class Receptor implements Runnable{
 
     InputStream in;
     Ducit600 d;
+    ModeSafeGuard s = ModeSafeGuard.instance();
 
     public Receptor ( InputStream in ,Ducit600 d)
     {
@@ -41,7 +46,7 @@ public class Receptor implements Runnable{
     @Override
     public void run (){
         
-        while(true){
+        while(!ThreadStop.instance().getStop()){
             if(leerCadenaPaquete()){
                 
                 
@@ -67,10 +72,49 @@ public class Receptor implements Runnable{
             
      try{   
     BufferedWriter writer = new BufferedWriter(new FileWriter("log.txt", true));
+    
+    
+    String datos = String.format("%x", new BigInteger(1, paquete.data));
+    
     writer.append("==========================================================");
     writer.append(paquete.raw);
-     
     writer.close();
+    
+    if(datos.startsWith("2d")) {
+    	
+    	if(!datos.startsWith("2d46")) {
+    		s.setError(false);
+    	} else {
+    		System.out.println("Hubo error en el cambio de patron");
+    	}
+    }
+    
+    System.out.println("//////////////////////////////////////////////");
+    System.out.println(String.format("%x", new BigInteger(1, paquete.raw.getBytes())));
+    System.out.println("//////////////////////////////////////////////");
+    System.out.println(String.format("%x", new BigInteger(1, paquete.data)));
+    
+//    if(datos.startsWith("2a")) {
+//    	
+//    	if(!(datos.substring(6).startsWith("41")
+//    		|| datos.substring(6).startsWith("43")
+//    		|| datos.substring(6).startsWith("44"))) {
+//    		System.out.println("Hubo error en el count");
+//    		return true;
+//    	}
+//
+//    	if(!(datos.substring(2).startsWith("07"))) 
+//    	{
+//			System.out.println("Hubo error en el count");
+//			return true;
+//		}
+//
+//    	
+//    	
+//    }
+    
+     
+
      }catch(Exception e){}
           
             //for(Integer i =0 ; i < paquete.raw.length();i++){

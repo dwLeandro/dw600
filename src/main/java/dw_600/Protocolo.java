@@ -20,7 +20,7 @@ public class Protocolo {
     static String getReset(){
         return "100230303121100310";//"10 02 30 30 31 21 10 03 13";
     }
-
+    									
     static String getStartTransaction(){
         return "100230303123100311";// "10 02 30 30 31 23 10 03 11";
     }
@@ -35,12 +35,15 @@ public class Protocolo {
 
     static String getGetCounts(){
         return "10023030322a0c100317";//"10023030322a0b100310";//"10 02 30 30 32 2a 0b 10 03 10";
-    }    
+    }          
 
     static String getGetDenomination(){
         return "10023030312b100319";//"10 02 30 30 31 2b 10 03 19";
     }
     
+    public static String getStackerConfig() {
+    	return "10023030312c10031e";  //1e o 0e?
+    }  
     
     static boolean sendReset( SerialCon serial){
         
@@ -135,4 +138,5 @@ public class Protocolo {
         //str = new String(largo);
         //return Integer.parseInt(str);    
     }
+
 }

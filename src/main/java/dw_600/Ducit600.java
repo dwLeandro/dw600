@@ -42,11 +42,20 @@ public class Ducit600 {
     Parametros params;
     Informacion informacion;
     
+    Actuador actuador = new Actuador(serial, this);
     Transmisor transmisor;
     Receptor receptor;
     Decodificador decodificador;
     Analizador analizador;
     Informador informador;
+	SocketCon socket;
+	
+	Thread r;
+	Thread t;
+	Thread a;
+	Thread d;
+	Thread i;
+	Thread s;
     
     public synchronized void offerPaquete(byte[] paq){
         Crudo op = new Crudo(paq);
@@ -175,6 +184,7 @@ public class Ducit600 {
         this.informacion = new Informacion();
 
         this.serial = new SerialCon();
+        this.actuador.setSerial(serial);
         
         this.transmisor = new Transmisor(this.serial);
         
@@ -183,6 +193,10 @@ public class Ducit600 {
         this.analizador = new Analizador(this.respuestas, this.informacion);
         
         this.informador = new Informador(informacion, params);
+        
+        new Thread(new SocketCon(actuador, params.getPuesto(), params.getPath())).start();
+       
+        
                 
 
     }
@@ -192,68 +206,103 @@ public class Ducit600 {
         sn.nextInt();
     }
     
+    
     public void auto(){
-        
-        Scanner sn = new Scanner(System.in);
-        boolean salir = false;
-        
-        System.out.println("Conectando...");
-            try
-          {
-              if(this.serial.connect(params.getSerialPort())){
 
-                  System.out.println("Conectado!");
+        if(this.conectar()){
+
+          System.out.println("Conectado!");
                   
-                                 new Thread( new Receptor(this.serial.inStream, this)).start();
-                                 new Thread(new Decodificador(this.respuestas,this.paquetes,this.params.getPatern())).start();
-                                 new Thread(new Analizador(this.respuestas, informacion)).start();
-                                  System.out.println("Obteniendo coonfiguración...");
-                            //if(
-                                    this.serial.write(Protocolo.getGetDenomination(),false)
-                                            ;
-                                   // this.offerPaquete(writeHexFromString("2b4007c11010a6000000000012020b01000300000002010004000000050100050000000a010006000000140100070000003201010100000032010008000000640101020000006401020000000064010009000000c801000a000001f4"));
-                            //
-                            //){
-                            //
-                                Thread.sleep(5000);
-                            //    this.decodificador.iterar();
-                            //}
-                            System.out.println("Iniciando Transacción...");
-                            if(
-                                    this.serial.write(Protocolo.getStartTransaction(),false)
-                            ){
-                                 Thread.sleep(1000);
-                                //this.decodificador.iterar();                                   //menu contando
-                                 new Thread(new Transmisor(this.serial)).start();
-                                 new Thread(new Informador(informacion, params)).start();
-                                 
-                                 while(true ){
-                                    this.subMenuContandoAuto( sn);
-                                    System.out.println("Iniciando Nueva Transacción...");
-                                    this.informacion.atm.clear();
-                                    this.informacion.ufit.clear();
-                                    this.informacion.fit.clear();
-                                    //if(
-                                    Thread.sleep(5000);
-                                   // this.serial.write(Protocolo.getReset(),false);
-                                    this.serial.write(Protocolo.getStartTransaction(),false);
-                                   // ){}
-                                 }
-                            }
-                
-                  
-              }
-          }
-          catch ( Exception e )
-          {
-              // TODO Auto-generated catch block
-              System.out.println("Error al conectar");
-              e.printStackTrace();
-          }                        
+          this.init();
+          
+       }
+                    
     
     }
     
-    public void menu()
+	public void reset() {
+        this.respuestas = new LinkedList();
+        this.paquetes = new LinkedList();
+        this.informacion = new Informacion();
+        serial.close();
+        this.serial = new SerialCon();
+        this.actuador.setSerial(serial);
+        
+        this.informacion.atm.clear();
+        this.informacion.ufit.clear();
+      	this.informacion.fit.clear();
+        
+      	ThreadStop.instance().setStop(true);
+        
+    }
+
+    
+    private void init() {
+    	ThreadStop.instance().setStop(false);
+        r = new Thread( new Receptor(this.serial.inStream, this));
+        r.start();
+        d = new Thread(new Decodificador(this.respuestas,this.paquetes,this.params.getPatern()));
+        d.start();
+        i = new Thread(new Analizador(this.respuestas, informacion));
+        i.start();
+
+
+        System.out.println("Obteniendo coonfiguracion...");
+   //if(
+         this.serial.write(Protocolo.getGetDenomination(),false)
+                   ;
+          // this.offerPaquete(writeHexFromString("2b4007c11010a6000000000012020b01000300000002010004000000050100050000000a010006000000140100070000003201010100000032010008000000640101020000006401020000000064010009000000c801000a000001f4"));
+   //
+   //){
+   //
+       try {
+		Thread.sleep(5000);
+	} catch (InterruptedException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+	}
+   //    this.decodificador.iterar();
+   //}
+	
+       if(this.abrirTX()){
+       	
+           try {
+			Thread.sleep(1000);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+          //this.decodificador.iterar();                                   //menu contando
+           t = new Thread(new Transmisor(this.serial));
+           t.start();
+           i = new Thread(new Informador(informacion, params));
+           i.start();
+           
+//           while(true){
+//              this.informacion.atm.clear();
+//              this.informacion.ufit.clear();
+//              this.informacion.fit.clear();
+//              //if(
+//              Thread.sleep(5000);
+//             // this.serial.write(Protocolo.getReset(),false);
+//              this.abrirTX();
+//             // ){}
+//           }
+      }
+	}
+
+	private boolean conectar() {
+        System.out.println("Conectando...");
+        try {
+			return this.serial.connect(params.getSerialPort());
+		} catch (Exception e) {
+			System.out.println("Error al conectar");
+			e.printStackTrace();
+		}
+		return false;
+	}
+
+	public void menu()
     {
         Scanner sn = new Scanner(System.in);
         boolean salir = false;
@@ -270,21 +319,22 @@ public class Ducit600 {
                 switch (opcion) {
                     case 1:
                         //serial.getCount();
-                      System.out.println("Conectando...");
-                          try
-                        {
-                            if(this.serial.connect(params.getSerialPort())){
-                                
-                                System.out.println("Conectado!");
-                                this.subMenu( sn);
-                            }
-                        }
-                        catch ( Exception e )
-                        {
-                            // TODO Auto-generated catch block
-                            System.out.println("Error al conectar");
-                            e.printStackTrace();
-                        }                        
+                      	System.out.println("Conectando...");
+                        try
+                      {
+                          if(this.serial.connect(params.getSerialPort())){
+                              
+                              System.out.println("Conectado!");
+                              this.subMenu(sn);
+                          }
+                      }
+                      catch ( Exception e )
+                      {
+                          // TODO Auto-generated catch block
+                          System.out.println("Error al conectar");
+                          e.printStackTrace();
+                      }  
+                                            
                         break;
                     case 2:
                         salir = true;
@@ -294,16 +344,17 @@ public class Ducit600 {
                         this.subMenuTest(sn);
                         break;
                     default:
-                        System.out.println("Solo números previamente informados");
+                        System.out.println("Solo numeros previamente informados");
                 }
             } catch (InputMismatchException e) {
-                System.out.println("Debes insertar un número");
+                System.out.println("Debes insertar un numero");
                 sn.next();
             }
         }
     }
     
-    public void subMenuTest(Scanner sn){
+
+	public void subMenuTest(Scanner sn){
     {
         boolean salir = false;
         Integer i = 1;
@@ -418,9 +469,9 @@ public void subMenu(Scanner sn)
         int opcion; //Guardaremos la opcion del usuario
 
         while (!salir) {
-            System.out.println("Selecciona una opción:");
-            System.out.println("    1. Iniciar contabilización");
-            System.out.println("    2. Finalizar contabilización");
+            System.out.println("Selecciona una opcion:");
+            System.out.println("    1. Iniciar contabilizacion");
+            System.out.println("    2. Finalizar contabilizacion");
 
             try {
                 opcion = sn.nextInt();
@@ -433,14 +484,16 @@ public void subMenu(Scanner sn)
                             //if(!Protocolo.sendReset(serial)){
                             //    System.out.println("El dispositivo no está listo");
                             //    break;
-                            //}
+                            //}	 
+                        		 actuador = new Actuador(serial, this);
+                        		 new Thread( new SocketCon(actuador, params.getPuesto(), params.getPath())).start();;
                                  new Thread( new Receptor(this.serial.inStream, this)).start();
                                  new Thread(new Decodificador(this.respuestas,this.paquetes,this.params.getPatern())).start();
                                  new Thread(new Analizador(this.respuestas, informacion)).start();
                                  //new Thread(new Analizador(this.respuestas, informacion)).start();
                                  new Thread(new Informador(informacion, params)).start();
                                  
-                                System.out.println("Obteniendo coonfiguración...");
+                                System.out.println("Obteniendo coonfiguracion...");
                             //if(
                                    this.serial.write(Protocolo.getGetDenomination(),false)                                          ;
                                    //this.offerPaquete(writeHexByteFromString("2b4007c11010a6000000000012020b01000300000002010004000000050100050000000a010006000000140100070000003201010100000032010008000000640101020000006401020000000064010009000000c801000a000001f4"));
@@ -450,10 +503,8 @@ public void subMenu(Scanner sn)
                                 Thread.sleep(5000);
                             //    this.decodificador.iterar();
                             //}
-                            System.out.println("Iniciando Transacción...");
-                            if(
-                                   this.serial.write(Protocolo.getStartTransaction(),false)
-                            ){
+
+                            if(this.abrirTX()){
                                  Thread.sleep(1000);
                                 //this.decodificador.iterar();                                   //menu contando
                                  new Thread(new Transmisor(this.serial)).start();
@@ -467,23 +518,13 @@ public void subMenu(Scanner sn)
                             e.printStackTrace();
                         }                        
                         break;
+                        
                     case 2:
                         salir = true;
                         //serial.getCount();
-                        try
-                        {
-
-                            if(
-                                    serial.write(Protocolo.getEndTransaction(),false)
-                            ){
-                                    //menu contando
-                            }
-                        }
-                        catch ( Exception e )
-                        {
-                            // TODO Auto-generated catch block
-                            e.printStackTrace();
-                        }
+                        
+                        this.cerrarTX();
+                       
                         break;
                     default:
                         System.out.println("Solo números previamente informados");
@@ -494,6 +535,8 @@ public void subMenu(Scanner sn)
             }
         }
     }
+
+
 public void subMenuContando(Scanner sn)
     {
         boolean salir = false;
@@ -508,136 +551,11 @@ public void subMenuContando(Scanner sn)
 
             try {
                 opcion = sn.nextInt();
-
+                
+               
+                
                 switch (opcion) {
-                    /*
-                    case 1:
-                        //serial.getCount();
-                        try
-                        {
-                            if(
-                                    serial.write(Protocolo.getSense(),false)
-                            ){
-                                    //menu contando
-                                    Thread.sleep(1000);
-                                    serial.read();
-                            }
-                        }
-                        catch ( Exception e )
-                        {
-                            // TODO Auto-generated catch block
-                            e.printStackTrace();
-                        }                        
-                        break;
-
-                    case 2:
-                        //salir = true;
-                        //serial.getCount();
-                        try
-                        {
-                            if(
-                                    serial.write(Protocolo.getGetCounts(),false)
-                            ){
-                                    //menu contando
-                                    Thread.sleep(1000);
-                                    this.decodificador.iterar();
-                                    this.decodificador.iterar();
-                                    this.decodificador.iterar();
-                                    this.decodificador.iterar();
-                                    this.decodificador.iterar();
-                                    Thread.sleep(1000);
-                                    this.analizador.analizar();
-                                    this.analizador.analizar();
-                                    this.analizador.analizar();
-                                    this.analizador.analizar();
-                                    this.analizador.analizar();
-                                    Thread.sleep(1000);
-                                   this.informador.informar();
-                            }
-                        }
-                        catch ( Exception e )
-                        {
-                            // TODO Auto-generated catch block
-                            e.printStackTrace();
-                        }
-                    break;
-                     
-                    case 3:
-                        try
-                        {
-                            if(
-                                    serial.write(Protocolo.getGetDenomination(),false)
-                            ){
-                                    //menu contando
-                                    Thread.sleep(1000);
-                                    serial.read();
-                            }
-                        }
-                        catch ( Exception e )
-                        {
-                            // TODO Auto-generated catch block
-                            e.printStackTrace();
-                        }
-                    break;
-                    
-                    case 8:
-                        //salir = true;
-                        //serial.getCount();
-                        try
-                        {
-                            if(
-                                    serial.write(Protocolo.getSense(),false)
-                            ){
-                                    //menu contando
-                                    Thread.sleep(1000);
-                                    Paquete paquete = new Paquete();
-                                    Protocolo.leerCadenaPaquete( serial);                            }
-                        }
-                        catch ( Exception e )
-                        {
-                            // TODO Auto-generated catch block
-                            e.printStackTrace();
-                        }
-                    break;
-                    case 5:
-                        //salir = true;
-                        //serial.getCount();
-                        try
-                        {
-                            if(
-                                    serial.write(Protocolo.getGetCounts(),false)
-                            ){
-                                    //menu contando
-                                    Thread.sleep(1000);
-                                    Protocolo.leerCadenaPaquete( serial);                            }
-                        }
-                        catch ( Exception e )
-                        {
-                            // TODO Auto-generated catch block
-                            e.printStackTrace();
-                        }
-                    break;
-                     
-                    case 6:
-                        try
-                        {
-                            if(
-                                    serial.write(Protocolo.getGetDenomination(),false)
-                            ){
-                                    //menu contando
-                                    Thread.sleep(1000);
-                                Paquete paquete = new Paquete();
-                                Protocolo.leerCadenaPaquete( serial);
-                                
-                            }
-
-                        }
-                        catch ( Exception e )
-                        {
-                            // TODO Auto-generated catch block
-                            e.printStackTrace();
-                        }
-                    break;*/
+                  
                      case 1:
 
                         //serial.getCount();
@@ -680,31 +598,22 @@ public void subMenuContando(Scanner sn)
                     break;
                     case 2:
                         salir = true;
-                        //serial.getCount();
-                        try
-                        {
-                            if(
-                                    serial.write(Protocolo.getEndTransaction(),false)
-                            ){
-                                    //menu contando
-                            }
-                        }
-                        catch ( Exception e )
-                        {
-                            // TODO Auto-generated catch block
-                            e.printStackTrace();
-                        }
+                        
+                        this.cerrarTX();
+                       
                     break;
                     
                     default:
-                        System.out.println("Solo números previamente informados");
+                        System.out.println("Solo numeros previamente informados");
                 }
             } catch (InputMismatchException e) {
-                System.out.println("Debes insertar un número");
+                System.out.println("Debes insertar un numero");
                 sn.next();
             }
         }
     }      
+
+
 public void subMenuContandoAuto(Scanner sn)
     {
         boolean salir = false;
@@ -892,26 +801,15 @@ public void subMenuContandoAuto(Scanner sn)
                     case 1:
                         salir = true;
                         //serial.getCount();
-                        try
-                        {
-                            if(
-                                    serial.write(Protocolo.getEndTransaction(),false)
-                            ){
-                                    //menu contando
-                            }
-                        }
-                        catch ( Exception e )
-                        {
-                            // TODO Auto-generated catch block
-                            e.printStackTrace();
-                        }
+                        this.cerrarTX();
+                        
                     break;
                     
                     default:
-                        System.out.println("Solo números previamente informados");
+                        System.out.println("Solo numeros previamente informados");
                 }
             } catch (InputMismatchException e) {
-                System.out.println("Debes insertar un número");
+                System.out.println("Debes insertar un numero");
                 sn.next();
             }
         }
@@ -968,4 +866,46 @@ public void subMenuContandoAuto(Scanner sn)
             }            
         }
     }    */
+
+
+void cerrarTX() {
+	try
+    {
+        while(true) {
+        	if(serial.write(Protocolo.getEndTransaction(),false))
+        		System.out.println("Transaccion terminada");
+        		break;
+        }
+      
+    }
+    catch ( Exception e )
+    {
+        // TODO Auto-generated catch block
+        e.printStackTrace();
+    }
+	
+}
+
+boolean abrirTX() {
+	System.out.println("Iniciando Transaccion...");
+	if(this.serial.write(Protocolo.getStartTransaction(),false)) {
+		System.out.println("Transaccion iniciada");
+		return true;
+	} else {
+		System.out.println("Error al iniciar la transaccion");
+		return false;
+	}
+	
+}
+
+void connectAfterChange() {
+	this.reset();
+	try {
+		Thread.sleep(1500);
+	} catch (InterruptedException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+	}
+	this.auto();
+}
 }

@@ -32,7 +32,7 @@ public class Informador  implements Runnable{
     }    
     @Override
     public void run (){
-         while(true){
+         while(!ThreadStop.instance().getStop()){
              this.informar();
             
             try{
@@ -91,8 +91,7 @@ public class Informador  implements Runnable{
         this.enviada.atm.putAll(this.informacion.atm);
         this.enviada.fit.putAll(this.informacion.fit);
         this.enviada.ufit.putAll(this.informacion.ufit);
-        
-        
+
         Connection con = this.db.dbConnect(
                 params.getHost(),
                 params.getPort(),params.getBase(),params.getUser(),params.getPassword());

@@ -12,6 +12,7 @@ package dw_600;
 public class Transmisor implements Runnable{
     
     SerialCon serial;
+    ModeSafeGuard s = ModeSafeGuard.instance();
     
     public Transmisor(SerialCon serial){
         this.serial = serial;
@@ -20,11 +21,12 @@ public class Transmisor implements Runnable{
     @Override
     public void run (){
  
-        while(true){
-             this.iterar();
-            
+        while(!ThreadStop.instance().getStop()){
+        	s.bloquearCambioDeModo();
+        	this.iterar();
+            s.habilitarCambioDeModo();
             try{
-                Thread.sleep(2000);
+                Thread.sleep(1500);
             }catch(Exception e){
                 
             }
