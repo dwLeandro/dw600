@@ -21,10 +21,10 @@ public class Transmisor implements Runnable{
     @Override
     public void run (){
  
-        while(!ThreadStop.instance().getStop()){
-        	s.bloquearCambioDeModo();
+        while(true){
+
         	this.iterar();
-            s.habilitarCambioDeModo();
+
             try{
                 Thread.sleep(1500);
             }catch(Exception e){

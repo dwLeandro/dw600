@@ -23,10 +23,10 @@ public class Parametros {
     private String user = "glory";
     private String password = "admin";
     private String table = "conteo600";
-    private String serialPort = "COM1";
+    private String serialPort = "/dev/ttyS0";
     private String patern = "";
     private String modeOperacion = "AUTO";
-	private String path = "http://172.21.32.60:4000";
+	private String path = "http://172.21.32.41:4000";
 
     public void setPuesto(int puesto){
         this.puesto = puesto;
@@ -61,8 +61,7 @@ public class Parametros {
     }
 
     public void setBase(String base) {
-        this.base = base;
-    }
+        this.base = base;    }
 
     public String getUser() {
         return user;

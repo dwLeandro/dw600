@@ -32,7 +32,7 @@ public class Informador  implements Runnable{
     }    
     @Override
     public void run (){
-         while(!ThreadStop.instance().getStop()){
+         while(true){
              this.informar();
             
             try{
@@ -138,6 +138,7 @@ public class Informador  implements Runnable{
 
       
     
-    }   */ 
+    }   */
+
     
 }

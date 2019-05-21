@@ -42,20 +42,15 @@ public class Ducit600 {
     Parametros params;
     Informacion informacion;
     
-    Actuador actuador = new Actuador(serial, this);
+    Actuador actuador;
     Transmisor transmisor;
     Receptor receptor;
     Decodificador decodificador;
     Analizador analizador;
     Informador informador;
 	SocketCon socket;
-	
-	Thread r;
-	Thread t;
-	Thread a;
-	Thread d;
-	Thread i;
-	Thread s;
+	private Informador informatorsThread;
+
     
     public synchronized void offerPaquete(byte[] paq){
         Crudo op = new Crudo(paq);
@@ -184,7 +179,8 @@ public class Ducit600 {
         this.informacion = new Informacion();
 
         this.serial = new SerialCon();
-        this.actuador.setSerial(serial);
+        this.actuador = new Actuador(serial, this);
+        new Thread(new SocketCon(actuador, params.getPuesto(), params.getPath())).start();
         
         this.transmisor = new Transmisor(this.serial);
         
@@ -194,7 +190,7 @@ public class Ducit600 {
         
         this.informador = new Informador(informacion, params);
         
-        new Thread(new SocketCon(actuador, params.getPuesto(), params.getPath())).start();
+        
        
         
                 
@@ -221,30 +217,37 @@ public class Ducit600 {
     }
     
 	public void reset() {
-        this.respuestas = new LinkedList();
-        this.paquetes = new LinkedList();
-        this.informacion = new Informacion();
-        serial.close();
-        this.serial = new SerialCon();
-        this.actuador.setSerial(serial);
+        this.respuestas.clear();
+        this.paquetes.clear();
+
+//        serial.close();
+//        this.serial = new SerialCon();
+//        this.actuador.setSerial(serial);
         
         this.informacion.atm.clear();
         this.informacion.ufit.clear();
       	this.informacion.fit.clear();
-        
-      	ThreadStop.instance().setStop(true);
-        
+//      	
+//      	informatorsThread.setInformacion(this.informacion);
+      	
+
+      	this.abrirTX();
+    	try {
+    		Thread.sleep(1500);
+    	} catch (InterruptedException e) {
+    		// TODO Auto-generated catch block
+    		e.printStackTrace();
+    	}
+    	
+      	ModeSafeGuard.instance().habilitarCambioDeModo();
+
     }
 
     
     private void init() {
-    	ThreadStop.instance().setStop(false);
-        r = new Thread( new Receptor(this.serial.inStream, this));
-        r.start();
-        d = new Thread(new Decodificador(this.respuestas,this.paquetes,this.params.getPatern()));
-        d.start();
-        i = new Thread(new Analizador(this.respuestas, informacion));
-        i.start();
+        new Thread( new Receptor(this.serial.inStream, this)).start();
+        new Thread(new Decodificador(this.respuestas,this.paquetes,this.params.getPatern())).start();
+        new Thread(new Analizador(this.respuestas, informacion)).start();
 
 
         System.out.println("Obteniendo coonfiguracion...");
@@ -273,10 +276,9 @@ public class Ducit600 {
 			e.printStackTrace();
 		}
           //this.decodificador.iterar();                                   //menu contando
-           t = new Thread(new Transmisor(this.serial));
-           t.start();
-           i = new Thread(new Informador(informacion, params));
-           i.start();
+           new Thread(new Transmisor(this.serial)).start();
+           informatorsThread = new Informador(informacion, params);
+           new Thread(informatorsThread).start();
            
 //           while(true){
 //              this.informacion.atm.clear();
@@ -900,12 +902,7 @@ boolean abrirTX() {
 
 void connectAfterChange() {
 	this.reset();
-	try {
-		Thread.sleep(1500);
-	} catch (InterruptedException e) {
-		// TODO Auto-generated catch block
-		e.printStackTrace();
-	}
-	this.auto();
+
+//	this.auto();
 }
 }

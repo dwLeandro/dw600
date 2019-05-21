@@ -32,7 +32,7 @@ public class Decodificador  implements Runnable{
     @Override
     public void run (){
  
-        while(!ThreadStop.instance().getStop()){
+        while(true){
              this.iterar();
             
             try{

@@ -46,8 +46,9 @@ public class Receptor implements Runnable{
     @Override
     public void run (){
         
-        while(!ThreadStop.instance().getStop()){
-            if(leerCadenaPaquete()){
+        while(true){
+
+        	if(leerCadenaPaquete()){
                 
                 
             }
@@ -56,6 +57,8 @@ public class Receptor implements Runnable{
             }catch(Exception e){
                 
             }
+            
+
         }
     }
     

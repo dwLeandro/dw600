@@ -23,7 +23,7 @@ public class Analizador implements Runnable{
     }
     @Override
     public void run (){
-         while(!ThreadStop.instance().getStop()){
+         while(true){
              this.analizar();
             
             try{

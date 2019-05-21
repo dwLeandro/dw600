@@ -15,10 +15,10 @@ public class Actuador {
 		ducit = d;
 		patrones = new HashMap<Integer, String>();
 		patrones.put(1,"10023030322d0110031d");
-		patrones.put(2,"10023030322d0210031d");
-		patrones.put(3,"10023030322d0310031c");
-		patrones.put(4,"10023030322d0410031b");
-		patrones.put(5,"10023030322d0510031a");
+		patrones.put(2,"10023030322d0210031e");
+		patrones.put(3,"10023030322d0310031f");
+		patrones.put(4,"10023030322d04100318");
+		patrones.put(5,"10023030322d05100319");
 	}
 	
 	
@@ -27,7 +27,7 @@ public class Actuador {
 		
 //		serial.write("100230303127100315", false);   // stop count
 		cerrarTX();		
-		s.bloquearCambioDeModo();
+
 
 //		System.out.println(patrones.get(numero));
 //		serial.write(patrones.get(numero), false);
@@ -45,6 +45,7 @@ public class Actuador {
 			
 			this.serial.write(patrones.get(numero), false);
 			
+
 			try {
 				Thread.sleep(500);
 			} catch (InterruptedException e) {
@@ -52,13 +53,17 @@ public class Actuador {
 				e.printStackTrace();
 			}
 			
+		
+			
 		}
 		
 		
 		ducit.connectAfterChange();
 		s.setError(true);
 		
-		s.habilitarCambioDeModo(); //antes de connect estaba
+		
+		
+		
 		
 //		this.serial.write(Protocolo.getReset(),false);
 		
@@ -77,6 +82,13 @@ public class Actuador {
 	
 	public void setSerial(SerialCon serial) {
 		this.serial = serial;
+	}
+
+
+
+	public boolean modoValido(int modo) {
+
+		return modo <= patrones.size();
 	}
 
 

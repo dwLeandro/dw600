@@ -7,17 +7,19 @@ public class ModeSafeGuard {
 	
 	public static ModeSafeGuard instance() {
 		if(INSTANCE == null) {
-			INSTANCE = new ModeSafeGuard(new Semaphore(1, true));
+			INSTANCE = new ModeSafeGuard(new Semaphore(1, true), new Semaphore(1, true));
 		}
 		
 		return INSTANCE;
 	}
 	
 	private final Semaphore semaforo;
+	private final Semaphore semaforoRecept;
 	private boolean error = true;
 	
-	private ModeSafeGuard(Semaphore sem) {
+	private ModeSafeGuard(Semaphore sem, Semaphore semRecept) {
 		this.semaforo = sem;
+		this.semaforoRecept = semRecept;
 	}
 	
 	public void bloquearCambioDeModo() {
@@ -32,6 +34,21 @@ public class ModeSafeGuard {
 	public void habilitarCambioDeModo() {
 		semaforo.release();
 	}
+//	
+//	public void bloquearReceptor() {
+//		System.out.println("Bloqueo");
+//		try {
+//			semaforoRecept.acquire();
+//		} catch (InterruptedException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+//	}
+//	
+//	public void habilitarReceptor() {
+//		System.out.println("Habilito");
+//		semaforoRecept.release();
+//	}
 
 	public boolean getError() {
 		return error;
