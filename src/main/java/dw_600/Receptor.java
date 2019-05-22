@@ -47,17 +47,17 @@ public class Receptor implements Runnable{
     public void run (){
         
         while(true){
+	
+	        	if(leerCadenaPaquete()){
+	                
+	                
+	            }
+	            try{
+	                Thread.sleep(10);
+	            }catch(Exception e){
+	                
+	            }
 
-        	if(leerCadenaPaquete()){
-                
-                
-            }
-            try{
-                Thread.sleep(10);
-            }catch(Exception e){
-                
-            }
-            
 
         }
     }
@@ -92,10 +92,18 @@ public class Receptor implements Runnable{
     	}
     }
     
-    System.out.println("//////////////////////////////////////////////");
-    System.out.println(String.format("%x", new BigInteger(1, paquete.raw.getBytes())));
-    System.out.println("//////////////////////////////////////////////");
-    System.out.println(String.format("%x", new BigInteger(1, paquete.data)));
+//    System.out.println("//////////////////////////////////////////////");
+//    System.out.println(String.format("%x", new BigInteger(1, paquete.raw.getBytes())));
+//    System.out.println("//////////////////////////////////////////////");
+//    System.out.println(String.format("%x", new BigInteger(1, paquete.data)));
+
+  if(datos.startsWith("2a")) {
+	
+	if(!ModeSafeGuard.instance().getCount()) {
+		return true;
+	}
+		
+	}    
     
 //    if(datos.startsWith("2a")) {
 //    	

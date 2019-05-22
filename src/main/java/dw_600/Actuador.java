@@ -26,6 +26,9 @@ public class Actuador {
 	void setPattern(int numero) {
 		
 //		serial.write("100230303127100315", false);   // stop count
+		
+		s.dontAcceptCount();
+		
 		cerrarTX();		
 
 
@@ -56,9 +59,16 @@ public class Actuador {
 		
 			
 		}
-		
-		
+	
 		ducit.connectAfterChange();
+		
+		try {
+			Thread.sleep(250);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 		s.setError(true);
 		
 		

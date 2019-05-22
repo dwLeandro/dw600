@@ -175,7 +175,7 @@ public class Ducit600 {
         this.respuestas = new LinkedList();
         this.paquetes = new LinkedList();
         this.params = new Parametros();
-        //this.params.leerParametros();
+        this.params.leerParametros();
         this.informacion = new Informacion();
 
         this.serial = new SerialCon();
@@ -239,6 +239,8 @@ public class Ducit600 {
     		e.printStackTrace();
     	}
     	
+
+      	ModeSafeGuard.instance().acceptCount();
       	ModeSafeGuard.instance().habilitarCambioDeModo();
 
     }
@@ -277,8 +279,7 @@ public class Ducit600 {
 		}
           //this.decodificador.iterar();                                   //menu contando
            new Thread(new Transmisor(this.serial)).start();
-           informatorsThread = new Informador(informacion, params);
-           new Thread(informatorsThread).start();
+           new Thread(new Informador(informacion, params)).start();
            
 //           while(true){
 //              this.informacion.atm.clear();

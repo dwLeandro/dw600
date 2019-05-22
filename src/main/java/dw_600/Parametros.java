@@ -26,7 +26,8 @@ public class Parametros {
     private String serialPort = "/dev/ttyS0";
     private String patern = "";
     private String modeOperacion = "AUTO";
-	private String path = "http://172.21.32.41:4000";
+	private String path = "http";
+//    private String path = "http://172.21.32.41:4000";
 
     public void setPuesto(int puesto){
         this.puesto = puesto;
@@ -154,6 +155,7 @@ public class Parametros {
       }
       catch(Exception e){
           System.out.println("No se encuentra el archivo " + System.getProperty("user.dir") +"/parametros.txt");
+//          e.getCause();
           e.printStackTrace();
           exit(0);
       }finally{
@@ -170,7 +172,7 @@ public class Parametros {
    
    private void asignarParametros(String linea){
        
-        String[] parts = linea.split(":");
+        String[] parts = linea.split(":", 2);
         String parametro = parts[0].trim(); // 004
         String valor = parts[1].trim(); // 034556
         
@@ -223,6 +225,10 @@ public class Parametros {
 
                 case "MODE":
                         this.setModeOperacion(valor);
+                break;
+                
+                case "PATH":
+                    this.setPath(valor);
                 break;
            }
         

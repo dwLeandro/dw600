@@ -11,6 +11,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.math.BigInteger;
 import java.sql.Connection;
 import java.util.*;
 
@@ -127,6 +128,7 @@ public class Decodificador  implements Runnable{
                 ){
         datos.put("RECORD_TYPE", Integer.toHexString((int) cadena[0]));
         procesar_patron(datos,c, decodeMap.get(Integer.toHexString((int) cadena[0])));
+        System.out.println(String.format("%x", new BigInteger(1, cadena)));
         
         this.respuestas.offer(datos);
 
