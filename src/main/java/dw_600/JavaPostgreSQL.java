@@ -189,7 +189,7 @@ public class JavaPostgreSQL {
                     + ((contadorActual.fit.get("1000")==null)?"0":contadorActual.fit.get("1000")) + ","
                     + ((contadorActual.ufit.get("1000")==null)?"0":contadorActual.ufit.get("1000")) + ","
                     + ((contadorActual.atm.get("1000")==null)?"0":contadorActual.atm.get("1000")) + ","
-                    + '0'
+                    + "99"
                     + ")";
             stmnt.executeUpdate(sql);
             return true;
@@ -198,6 +198,22 @@ public class JavaPostgreSQL {
         }
 
         return false;
+    }
+    
+    
+    
+    
+    public void cambiarEstado(Connection con)
+    {	
+    	System.out.println("cambio estado");
+        ResultSet res;
+        try {
+          Statement statement = con.createStatement();
+          res = statement.executeQuery("select cambio_estado(0);");
+         }
+       catch (SQLException ex) {
+            System.err.println( ex.getMessage() );
+       }
     }
     
 }

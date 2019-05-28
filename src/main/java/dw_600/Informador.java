@@ -34,7 +34,10 @@ public class Informador  implements Runnable{
     public void run (){
          while(true){
              this.informar();
-            
+             if(ModeSafeGuard.instance().getCambiarEstado()) {
+            	 this.cambiarEstado();
+            	 ModeSafeGuard.instance().setCambiarEstado(false);
+             }
             try{
                 Thread.sleep(100);
             }catch(Exception e){
@@ -43,7 +46,19 @@ public class Informador  implements Runnable{
         }         
     }
 
-    public void informar(){
+    private void cambiarEstado() {
+    	Connection con = this.db.dbConnect(
+                params.getHost(),
+                params.getPort(),params.getBase(),params.getUser(),params.getPassword());
+        this.db.cambiarEstado(con);
+        try{
+            con.close();
+        }catch (Exception e){
+            System.out.println("Error al cerrar la conexion con el servidor de BBDD");
+        }
+		
+	}
+	public void informar(){
         
 
 
