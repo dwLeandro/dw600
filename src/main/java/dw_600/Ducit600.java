@@ -232,8 +232,9 @@ public class Ducit600 {
       	
 
       	this.abrirTX();
+      	
     	try {
-    		Thread.sleep(1500);
+    		Thread.sleep(1700);
     	} catch (InterruptedException e) {
     		// TODO Auto-generated catch block
     		e.printStackTrace();

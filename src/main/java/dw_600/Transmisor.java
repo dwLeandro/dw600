@@ -22,15 +22,17 @@ public class Transmisor implements Runnable{
     public void run (){
  
         while(true){
-
-        	this.iterar();
-
-            try{
-                Thread.sleep(1500);
-            }catch(Exception e){
+        
+        	if(s.getCount()) {
+        		this.iterar();
+        	}
+        		try{
+                	Thread.sleep(1500);
+            	}catch(Exception e){
                 
-            }
-        }       
+            	}
+        	
+        }
     }
 
     void iterar(){

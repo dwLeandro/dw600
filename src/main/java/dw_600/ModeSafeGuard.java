@@ -17,6 +17,7 @@ public class ModeSafeGuard {
 	private final Semaphore semaforoRecept;
 	private boolean error = true;
 	private boolean count = true;
+	private boolean cambiarEstado = false;
 	
 	private ModeSafeGuard(Semaphore sem, Semaphore semRecept) {
 		this.semaforo = sem;
@@ -61,6 +62,7 @@ public class ModeSafeGuard {
 
 	public void dontAcceptCount() {
 		count = false;
+		cambiarEstado  = true;
 		
 	}
 	
@@ -70,5 +72,13 @@ public class ModeSafeGuard {
 	
 	public boolean getCount() {
 		return count;
+	}
+	
+	public void setCambiarEstado(boolean b) {
+		this.cambiarEstado = b;
+	}
+	
+	public boolean getCambiarEstado() {
+		return this.cambiarEstado;
 	}
 }

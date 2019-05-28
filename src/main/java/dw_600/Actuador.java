@@ -30,7 +30,7 @@ public class Actuador {
 		s.dontAcceptCount();
 		
 		cerrarTX();		
-
+		
 
 //		System.out.println(patrones.get(numero));
 //		serial.write(patrones.get(numero), false);
