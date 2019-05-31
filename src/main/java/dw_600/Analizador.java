@@ -60,6 +60,11 @@ public class Analizador implements Runnable{
                         temp = String.format("%3s",  i.toString()).replace(' ', '0');
                         vl = datos.get("DN_VL_"+temp);
                         id = datos.get("DN_ID_"+temp);
+                        String no = datos.get("DN_NO_" + temp);
+//                        if(Integer.parseInt(no) != 0) {
+//                        	vl = vl + no;
+//                        }
+                        
                         if(id != null){
                             this.informacion.ids.put(id, vl);
                         }
