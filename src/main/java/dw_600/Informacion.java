@@ -18,6 +18,7 @@ public class Informacion {
     public Map<String,String> fit;
     public Map<String,String> ufit;
     public Map<String,String> ids;
+    public Map<String, String> no;
     
 
     
@@ -26,5 +27,6 @@ public class Informacion {
         this.atm = new HashMap<>();
         this.fit = new HashMap<>();
         this.ufit = new HashMap<>();
+        this.no = new HashMap<>();
     }
 }
