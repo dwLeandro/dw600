@@ -64,8 +64,8 @@ public class Analizador implements Runnable{
 
                         
                         if(id != null){
-                            this.informacion.ids.put(id, vl);
-                            this.informacion.no.put(id, no);
+                            this.informacion.ids.put(id, vl + "_" + no);
+                            this.informacion.no.put(String.format("%2s",  i.toString()).replace(' ', '0'), no);
                             
                         }
 
@@ -74,51 +74,36 @@ public class Analizador implements Runnable{
             break;
             
             case "2a":
+
                 nd = datos.get("ND");
                 if(nd != null){
                     this.informacion.atm.clear();
                     this.informacion.fit.clear();
                     this.informacion.ufit.clear();
                     for(Integer i = 0;i< Integer.parseInt(nd);i++){
+                    	
                         temp = String.format("%2s",  i.toString()).replace(' ', '0');
                         vl = datos.get("ATM_"+temp);
                         id = this.informacion.ids.get(i.toString());
                          if(id != null&&vl != null){
-                            ovl = this.informacion.atm.get(id);
-                            if(ovl!=null){
-                               ti = Integer.parseInt(ovl);
-                               ti += Integer.parseInt(vl);
-                               this.informacion.atm.put(id, ti.toString());
-                            }else{
-                                this.informacion.atm.put(id, vl);
-                            }
+                             this.informacion.atm.put(id, vl);
+     
                         }
                         vl = datos.get("TELLER_"+temp);
                         id = this.informacion.ids.get(i.toString());
                          if(id != null&&vl != null){
-                             ovl = this.informacion.fit.get(id);
-                            if(ovl!=null){
-                               ti = Integer.parseInt(ovl);
-                               ti += Integer.parseInt(vl);
-                               this.informacion.fit.put(id, ti.toString());
-                            }else{
-                                this.informacion.fit.put(id, vl);
-                            }
+                        	 
+                        	 this.informacion.fit.put(id, vl);
 
                         }
+                         
                         vl = datos.get("UNFIT_"+temp);
                         id = this.informacion.ids.get(i.toString());
                          if(id != null&&vl != null){
-                             ovl = this.informacion.ufit.get(id);
-                            if(ovl!=null){
-                               ti = Integer.parseInt(ovl);
-                               ti += Integer.parseInt(vl);
-                               this.informacion.ufit.put(id, ti.toString());
-                            }else{
-                                this.informacion.ufit.put(id, vl);
-                            }
+                        	 this.informacion.ufit.put(id, vl);
 
                         }
+
                     }
                 }
                     
