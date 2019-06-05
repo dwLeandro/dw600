@@ -37,11 +37,7 @@ public class Actuador {
 		}
 		
 		cerrarTX();		
-		
 
-//		System.out.println(patrones.get(numero));
-//		serial.write(patrones.get(numero), false);
-//		serial.write("10023030322d0110031d", false);
 		while(s.getError()) {
 
 			try {

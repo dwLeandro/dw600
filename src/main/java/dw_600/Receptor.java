@@ -105,25 +105,7 @@ public class Receptor implements Runnable{
 	
 		
 	}    
-    
-//    if(datos.startsWith("2a")) {
-//    	
-//    	if(!(datos.substring(6).startsWith("41")
-//    		|| datos.substring(6).startsWith("43")
-//    		|| datos.substring(6).startsWith("44"))) {
-//    		System.out.println("Hubo error en el count");
-//    		return true;
-//    	}
-//
-//    	if(!(datos.substring(2).startsWith("07"))) 
-//    	{
-//			System.out.println("Hubo error en el count");
-//			return true;
-//		}
-//
-//    	
-//    	
-//    }
+
     
      
 

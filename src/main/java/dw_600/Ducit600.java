@@ -282,17 +282,7 @@ public class Ducit600 {
           //this.decodificador.iterar();                                   //menu contando
            new Thread(new Transmisor(this.serial)).start();
            new Thread(new Informador(informacion, params)).start();
-           
-//           while(true){
-//              this.informacion.atm.clear();
-//              this.informacion.ufit.clear();
-//              this.informacion.fit.clear();
-//              //if(
-//              Thread.sleep(5000);
-//             // this.serial.write(Protocolo.getReset(),false);
-//              this.abrirTX();
-//             // ){}
-//           }
+
       }
 	}
 
@@ -345,9 +335,7 @@ public class Ducit600 {
                         salir = true;
                         exit(0);
                         break;
-                    case 3:
-                        this.subMenuTest(sn);
-                        break;
+
                     default:
                         System.out.println("Solo numeros previamente informados");
                 }
@@ -359,115 +347,6 @@ public class Ducit600 {
     }
     
 
-	public void subMenuTest(Scanner sn){
-    {
-        boolean salir = false;
-        Integer i = 1;
-        int opcion; //Guardaremos la opcion del usuario
-        
-        Map<Integer, byte[]> testMap= new HashMap<>();
-        
-        testMap.put(1, writeHexByteFromString("2b4007c11010a6000000000012020b01000300000002010004000000050100050000000a010006000000140100070000003201010100000032010008000000640101020000006401020000000064010009000000c801000a000001f4"));
-         //                                  2b4007c100a600000000000012020b01000300000002010004000000050100050000000a010006000000140100070000003201010100000032010008000000640101020000006401020000000064010009000000c801000a000001f4
-        testMap.put(2, writeHexByteFromString("2a4007c100a600000000000012020b0700ff00000000000000010004000000000002000000020000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"));
-        testMap.put(3, writeHexByteFromString("2a4007c1000000000000000012020b07000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"));
-        testMap.put(3, writeHexByteFromString("2a4007c1"));
-        testMap.put(4, writeHexByteFromString("2a4007c100a600000000000012020b07000500000000000000010004000000000002000000020000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"));
-        testMap.put(5, writeHexByteFromString("2a4007c100a600000000000012020b07000500000000000000010004000000000002000000020000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"));
-        testMap.put(6, writeHexByteFromString("2a4007c100a600000000000012020b07000500000000000000010004000000000002000000020000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"));
-        testMap.put(7, writeHexByteFromString("2a4007c100a600000000000012020b07000500000000000000010004000000000002000000020000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"));
-        testMap.put(8, writeHexByteFromString("2a4007c100a600000000000012020b07000500000000000000010004000000000002000000020000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"));
-        testMap.put(9, writeHexByteFromString("2a4007c100a600000000000012020b07000500000000000000010004000000000002000000020000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"));
-        testMap.put(10, writeHexByteFromString("2a4007c1000000000000000012020b07000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"));
-        testMap.put(11, writeHexByteFromString("2a4007c1000000000000000012020b07000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"));
-        testMap.put(12, writeHexByteFromString("2a4007c1000000000000000012020b07000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"));
-        testMap.put(13, writeHexByteFromString("2a4007c1000000000000000012020b07000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"));
-
-        //this.decodificador.run();
-        new Thread(new Decodificador(this.respuestas,this.paquetes,this.params.getPatern())).start();
-        Thread tr;
-        tr = new Thread(new Analizador(this.respuestas, informacion));
-        tr.start();
-        new Thread(new Informador(informacion, params)).start();
-
-        while (!salir) {
-            System.out.println("Selecciona una opción:");
-            System.out.println("    1. Generar");
-            System.out.println("    2. Finalizar contabilización");
-
-            try {
-                opcion = sn.nextInt();
-
-                switch (opcion) {
-                    case 1:
-                        
-
-                        try
-                        {
-                       this.offerPaquete(testMap.get(i++));
-
-                                Thread.sleep(5000);
-                        }
-                        catch ( Exception e )
-                        {
-                            // TODO Auto-generated catch block
-                            e.printStackTrace();
-                        }                        
-                        break;
-                    case 2:
-                        salir = true;
-                        break;
-                                             case 3:
-
-                        //serial.getCount();
-                        try
-                        {
-                            System.out.println("CANTIDAD_2F: "+     informacion.fit.get("2") + "\n");
-                            System.out.println("CANTIDAD_2U: "+     informacion.ufit.get("2") + "\n");
-                            System.out.println("CANTIDAD_2A: "+     informacion.atm.get("2") + "\n");
-                            System.out.println("CANTIDAD_5F: "+     informacion.fit.get("5") + "\n");
-                            System.out.println("CANTIDAD_5U: "+     informacion.ufit.get("5") + "\n");
-                            System.out.println("CANTIDAD_5A: "+     informacion.atm.get("5") + "\n");
-                            System.out.println("CANTIDAD_10F: "+    informacion.fit.get("10") + "\n");
-                            System.out.println("CANTIDAD_10U: "+    informacion.ufit.get("10") + "\n");
-                            System.out.println("CANTIDAD_10A: "+    informacion.atm.get("10") + "\n");
-                            System.out.println("CANTIDAD_20F: "+    informacion.fit.get("20") + "\n");
-                            System.out.println("CANTIDAD_20U: "+    informacion.ufit.get("20") + "\n");
-                            System.out.println("CANTIDAD_20A: "+    informacion.atm.get("20") + "\n");
-                            System.out.println("CANTIDAD_50F: "+    informacion.fit.get("50") + "\n");
-                            System.out.println("CANTIDAD_50U: "+    informacion.ufit.get("50") + "\n");
-                            System.out.println("CANTIDAD_50A: "+    informacion.atm.get("50") + "\n");
-                            System.out.println("CANTIDAD_100F: "+   informacion.fit.get("100") + "\n");
-                            System.out.println("CANTIDAD_100U: "+   informacion.ufit.get("100") + "\n");
-                            System.out.println("CANTIDAD_100A: "+   informacion.atm.get("100") + "\n");
-                            System.out.println("CANTIDAD_200F: "+   informacion.fit.get("200") + "\n");
-                            System.out.println("CANTIDAD_200U: "+   informacion.ufit.get("200") + "\n");
-                            System.out.println("CANTIDAD_200A: "+   informacion.atm.get("200") + "\n");
-                            System.out.println("CANTIDAD_500F: "+   informacion.fit.get("500") + "\n");
-                            System.out.println("CANTIDAD_500U: "+   informacion.ufit.get("500") + "\n");
-                            System.out.println("CANTIDAD_500A: "+   informacion.atm.get("500") + "\n");
-                            System.out.println("CANTIDAD_1000F: "+  informacion.fit.get("1000") + "\n");
-                            System.out.println("CANTIDAD_1000U: "+  informacion.ufit.get("1000") + "\n");
-                            System.out.println("CANTIDAD_1000A: "+  informacion.atm.get("1000") + "\n");
-
-                        }
-                        catch ( Exception e )
-                        {
-                            // TODO Auto-generated catch block
-                            e.printStackTrace();
-                        }
-                    break;
-                    default:
-                        System.out.println("Solo números previamente informados");
-                }
-            } catch (InputMismatchException e) {
-                System.out.println("Debes insertar un número");
-                sn.next();
-            }
-        }
-    }
-}     
-    
 public void subMenu(Scanner sn)
     {
         boolean salir = false;
@@ -819,59 +698,7 @@ public void subMenuContandoAuto(Scanner sn)
             }
         }
     }
-  /*
-    public static class SerialReader implements Runnable 
-    {
-        InputStream in;
-        
-        public SerialReader ( InputStream in )
-        {
-            this.in = in;
-        }
-        
-        public void run ()
-        {
-            byte[] buffer = new byte[1024];
-            int len = -1;
-            try
-            {
-                while ( ( len = this.in.read(buffer)) > -1 )
-                {
-                    System.out.print(new String(buffer,0,len));
-                }
-            }
-            catch ( IOException e )
-            {
-                e.printStackTrace();
-            }            
-        }
-    }
-    public static class SerialWriter implements Runnable 
-    {
-        OutputStream out;
-        
-        public SerialWriter ( OutputStream out )
-        {
-            this.out = out;
-        }
-        
-        public void run ()
-        {
-            try
-            {                
-                int c = 0;
-                while ( ( c = System.in.read()) > -1 )
-                {
-                    this.out.write(c);
-                }                
-            }
-            catch ( IOException e )
-            {
-                e.printStackTrace();
-            }            
-        }
-    }    */
-
+ 
 
 void cerrarTX() {
 	try

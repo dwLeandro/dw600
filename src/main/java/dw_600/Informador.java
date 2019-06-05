@@ -40,7 +40,7 @@ public class Informador  implements Runnable{
             	 ModeSafeGuard.instance().setCambiarEstado(false);
              }
             try{
-                Thread.sleep(1000);
+                Thread.sleep(500);
             }catch(Exception e){
                 
             }
@@ -81,33 +81,7 @@ public class Informador  implements Runnable{
 //        }
         
         
-//                            System.out.println("CANTIDAD_2F: "+     ((this.informacion.fit.get("2")  == null)?0:this.informacion.fit.get("2")) + "\n");
-//                            System.out.println("CANTIDAD_2U: "+     ((this.informacion.ufit.get("2")  == null)?0:this.informacion.ufit.get("2")) + "\n");
-//                            System.out.println("CANTIDAD_2A: "+    ((this. informacion.atm.get("2")  == null)?0:this.informacion.atm.get("2")) + "\n");
-//                            System.out.println("CANTIDAD_5F: "+     ((this.informacion.fit.get("5")  == null)?0:this.informacion.fit.get("5")) + "\n");
-//                            System.out.println("CANTIDAD_5U: "+     ((this.informacion.ufit.get("5")  == null)?0:this.informacion.ufit.get("5")) + "\n");
-//                            System.out.println("CANTIDAD_5A: "+     ((this.informacion.atm.get("5")  == null)?0:this.informacion.atm.get("5")) + "\n");
-//                            System.out.println("CANTIDAD_10F: "+    ((this.informacion.fit.get("10")  == null)?0:this.informacion.fit.get("10")) + "\n");
-//                            System.out.println("CANTIDAD_10U: "+   ((this. informacion.ufit.get("10")  == null)?0:this.informacion.ufit.get("10")) + "\n");
-//                            System.out.println("CANTIDAD_10A: "+   ((this. informacion.atm.get("10")  == null)?0:this.informacion.atm.get("10")) + "\n");
-//                            System.out.println("CANTIDAD_20F: "+    ((this.informacion.fit.get("20")  == null)?0:this.informacion.fit.get("20")) + "\n");
-//                            System.out.println("CANTIDAD_20U: "+   ((this. informacion.ufit.get("20")  == null)?0:this.informacion.ufit.get("20")) + "\n");
-//                            System.out.println("CANTIDAD_20A: "+   ((this. informacion.atm.get("20")  == null)?0:this.informacion.atm.get("20")) + "\n");
-//                            System.out.println("CANTIDAD_50F: "+   ((this. informacion.fit.get("50")  == null)?0:this.informacion.fit.get("50")) + "\n");
-//                            System.out.println("CANTIDAD_50U: "+   ((this. informacion.ufit.get("50") == null)?0:this.informacion.ufit.get("50"))  + "\n");
-//                            System.out.println("CANTIDAD_50A: "+   ((this. informacion.atm.get("50") == null)?0:this.informacion.atm.get("50"))  + "\n");
-//                            System.out.println("CANTIDAD_100F: "+  ((this. informacion.fit.get("100") == null)?0:this.informacion.fit.get("100"))  + "\n");
-//                            System.out.println("CANTIDAD_100U: "+  ((this. informacion.ufit.get("100") == null)?0:this.informacion.ufit.get("100"))  + "\n");
-//                            System.out.println("CANTIDAD_100A: "+  ((this. informacion.atm.get("100") == null)?0:this.informacion.atm.get("100"))  + "\n");
-//                            System.out.println("CANTIDAD_200F: "+  ((this. informacion.fit.get("200") == null)?0:this.informacion.fit.get("200"))  + "\n");
-//                            System.out.println("CANTIDAD_200U: "+  ((this. informacion.ufit.get("200") == null)?0:this.informacion.ufit.get("200"))  + "\n");
-//                            System.out.println("CANTIDAD_200A: "+  ((this. informacion.atm.get("200") == null)?0:this.informacion.atm.get("200"))  + "\n");
-//                            System.out.println("CANTIDAD_500F: "+  ((this. informacion.fit.get("500") == null)?0:this.informacion.fit.get("500"))  + "\n");
-//                            System.out.println("CANTIDAD_500U: "+  ((this. informacion.ufit.get("500") == null)?0:this.informacion.ufit.get("500"))  + "\n");
-//                            System.out.println("CANTIDAD_500A: "+  ((this. informacion.atm.get("500") == null)?0:this.informacion.atm.get("500"))  + "\n");
-//                            System.out.println("CANTIDAD_1000A: "+  ((this.informacion.fit.get("1000") == null)?0:this.informacion.fit.get("1000")) + "\n");
-//                            System.out.println("CANTIDAD_1000A: "+  ((this.informacion.ufit.get("1000") == null)?0:this.informacion.ufit.get("1000")) + "\n");
-//                            System.out.println("CANTIDAD_1000A: "+  ((this.informacion.atm.get("1000") == null)?0:this.informacion.atm.get("1000")) + "\n");
+
         
 
         this.enviada.atm.clear();
@@ -135,41 +109,6 @@ public class Informador  implements Runnable{
 
     
     }
-/*
-    public void mostrar(){
-
-        System.out.println("CANTIDAD_2F: "+     informacion.fit.get("2") + "\n");
-        System.out.println("CANTIDAD_2U: "+     informacion.ufit.get("2") + "\n");
-        System.out.println("CANTIDAD_2A: "+     informacion.atm.get("2") + "\n");
-        System.out.println("CANTIDAD_5F: "+     informacion.fit.get("5") + "\n");
-        System.out.println("CANTIDAD_5U: "+     informacion.ufit.get("5") + "\n");
-        System.out.println("CANTIDAD_5A: "+     informacion.atm.get("5") + "\n");
-        System.out.println("CANTIDAD_10F: "+    informacion.fit.get("10") + "\n");
-        System.out.println("CANTIDAD_10U: "+    informacion.ufit.get("10") + "\n");
-        System.out.println("CANTIDAD_10A: "+    informacion.atm.get("10") + "\n");
-        System.out.println("CANTIDAD_20F: "+    informacion.fit.get("20") + "\n");
-        System.out.println("CANTIDAD_20U: "+    informacion.ufit.get("20") + "\n");
-        System.out.println("CANTIDAD_20A: "+    informacion.atm.get("20") + "\n");
-        System.out.println("CANTIDAD_50F: "+    informacion.fit.get("50") + "\n");
-        System.out.println("CANTIDAD_50U: "+    informacion.ufit.get("50") + "\n");
-        System.out.println("CANTIDAD_50A: "+    informacion.atm.get("50") + "\n");
-        System.out.println("CANTIDAD_100F: "+   informacion.fit.get("100") + "\n");
-        System.out.println("CANTIDAD_100U: "+   informacion.ufit.get("100") + "\n");
-        System.out.println("CANTIDAD_100A: "+   informacion.atm.get("100") + "\n");
-        System.out.println("CANTIDAD_200F: "+   informacion.fit.get("200") + "\n");
-        System.out.println("CANTIDAD_200U: "+   informacion.ufit.get("200") + "\n");
-        System.out.println("CANTIDAD_200A: "+   informacion.atm.get("200") + "\n");
-        System.out.println("CANTIDAD_500F: "+   informacion.fit.get("500") + "\n");
-        System.out.println("CANTIDAD_500U: "+   informacion.ufit.get("500") + "\n");
-        System.out.println("CANTIDAD_500A: "+   informacion.atm.get("500") + "\n");
-        System.out.println("CANTIDAD_1000F: "+  informacion.fit.get("1000") + "\n");
-        System.out.println("CANTIDAD_1000U: "+  informacion.ufit.get("1000") + "\n");
-        System.out.println("CANTIDAD_1000A: "+  informacion.atm.get("1000") + "\n");
-        System.out.println("CANTIDAD_1000A: "+  (informacion.atm.get("1000").isEmpty()?0:informacion.atm.get("1000")) + "\n");
-
-      
-    
-    }   */
 
     
 }
