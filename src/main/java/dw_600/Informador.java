@@ -19,14 +19,14 @@ public class Informador  implements Runnable{
     Informacion informacion;
     Informacion enviada;
     Parametros params;
-    String[] billetes = {"2_0", "5_0" ,"10_0", "20_0", "20_1", "50_0", "50_1", "100_0", "100_1", "100_2", "200_0", "500_0"};
+    String[] billetes;
     private JavaPostgreSQL db;
         
     public Informador(Informacion i,Parametros p){
 
         this.informacion = i;
         this.enviada = new Informacion();
-        
+        this.billetes = informacion.billetes;
         
         this.params = p;
         this.db = new JavaPostgreSQL();
@@ -40,7 +40,7 @@ public class Informador  implements Runnable{
             	 ModeSafeGuard.instance().setCambiarEstado(false);
              }
             try{
-                Thread.sleep(100);
+                Thread.sleep(1000);
             }catch(Exception e){
                 
             }
@@ -73,12 +73,14 @@ public class Informador  implements Runnable{
         }
 
         
-        for(int i = 0; i < informacion.atm.size(); i++) {
-        	String billete = billetes[i];
-        	System.out.println("CANTIDAD_F_" + billete + ": "+     ((this.informacion.fit.get(billete)  == null)?0:this.informacion.fit.get(billete)) + "\n");
-        	System.out.println("CANTIDAD_U_" + billete + ": "+     ((this.informacion.ufit.get(billete)  == null)?0:this.informacion.ufit.get(billete)) + "\n");
-        	System.out.println("CANTIDAD_A_" + billete + ": "+    ((this. informacion.atm.get(billete)  == null)?0:this.informacion.atm.get(billete)) + "\n");
-        }
+//        for(int i = 0; i < informacion.atm.size(); i++) {
+//        	String billete = billetes[i];
+//        	System.out.println("CANTIDAD_F_" + billete + ": "+     ((this.informacion.fit.get(billete)  == null)?0:this.informacion.fit.get(billete)) + "\n");
+//        	System.out.println("CANTIDAD_U_" + billete + ": "+     ((this.informacion.ufit.get(billete)  == null)?0:this.informacion.ufit.get(billete)) + "\n");
+//        	System.out.println("CANTIDAD_A_" + billete + ": "+    ((this. informacion.atm.get(billete)  == null)?0:this.informacion.atm.get(billete)) + "\n");
+//        }
+        
+        
 //                            System.out.println("CANTIDAD_2F: "+     ((this.informacion.fit.get("2")  == null)?0:this.informacion.fit.get("2")) + "\n");
 //                            System.out.println("CANTIDAD_2U: "+     ((this.informacion.ufit.get("2")  == null)?0:this.informacion.ufit.get("2")) + "\n");
 //                            System.out.println("CANTIDAD_2A: "+    ((this. informacion.atm.get("2")  == null)?0:this.informacion.atm.get("2")) + "\n");
@@ -121,15 +123,15 @@ public class Informador  implements Runnable{
         this.enviada.fit.putAll(this.informacion.fit);
         this.enviada.ufit.putAll(this.informacion.ufit);
 
-//        Connection con = this.db.dbConnect(
-//                params.getHost(),
-//                params.getPort(),params.getBase(),params.getUser(),params.getPassword());
-//        this.db.insertBills(con,params.getPuesto(),params.getTable(),this.enviada);
-//        try{
-//            con.close();
-//        }catch (Exception e){
-//            System.out.println("Error al cerrar la conexion con el servidor de BBDD");
-//        }
+        Connection con = this.db.dbConnect(
+                params.getHost(),
+                params.getPort(),params.getBase(),params.getUser(),params.getPassword());
+        this.db.insertBills(con,params.getPuesto(),params.getTable(),this.enviada);
+        try{
+            con.close();
+        }catch (Exception e){
+            System.out.println("Error al cerrar la conexion con el servidor de BBDD");
+        }
 
     
     }

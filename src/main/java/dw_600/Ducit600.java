@@ -217,6 +217,9 @@ public class Ducit600 {
     }
     
 	public void reset() {
+		this.informacion.atm.clear();
+        this.informacion.ufit.clear();
+      	this.informacion.fit.clear();
         this.respuestas.clear();
         this.paquetes.clear();
 
@@ -224,9 +227,7 @@ public class Ducit600 {
 //        this.serial = new SerialCon();
 //        this.actuador.setSerial(serial);
         
-        this.informacion.atm.clear();
-        this.informacion.ufit.clear();
-      	this.informacion.fit.clear();
+        
 //      	
 //      	informatorsThread.setInformacion(this.informacion);
       	

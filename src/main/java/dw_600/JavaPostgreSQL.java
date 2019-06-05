@@ -90,35 +90,14 @@ public class JavaPostgreSQL {
         }
     }
     public boolean insertBills(Connection con, int puesto ,String table, Informacion contadorActual){
+        Integer suma =  0;
+        String conteo = "";
         
-        Integer suma =  0;            
-                    suma += Integer.parseInt((contadorActual.fit.get("2") ==null)?"0":contadorActual.fit.get("2")) ;
-                    suma += Integer.parseInt((contadorActual.ufit.get("2") ==null)?"0":contadorActual.ufit.get("2")) ;
-                    suma += Integer.parseInt((contadorActual.atm.get("2") ==null)?"0":contadorActual.atm.get("2")) ;
-                    suma += Integer.parseInt ((contadorActual.fit.get("5") ==null)?"0":contadorActual.fit.get("5")) ;
-                    suma += Integer.parseInt ((contadorActual.ufit.get("5") ==null)?"0":contadorActual.ufit.get("5")) ;
-                    suma += Integer.parseInt ((contadorActual.atm.get("5") ==null)?"0":contadorActual.atm.get("5")) ;
-                    suma += Integer.parseInt ((contadorActual.fit.get("10") ==null)?"0":contadorActual.fit.get("10"));
-                    suma += Integer.parseInt((contadorActual.ufit.get("10") ==null)?"0":contadorActual.ufit.get("10"));
-                    suma += Integer.parseInt ((contadorActual.atm.get("10") ==null)?"0":contadorActual.atm.get("10")) ;
-                    suma += Integer.parseInt ((contadorActual.fit.get("20") ==null)?"0":contadorActual.fit.get("20")) ;
-                    suma += Integer.parseInt ((contadorActual.ufit.get("20") ==null)?"0":contadorActual.ufit.get("20")) ;
-                    suma += Integer.parseInt ((contadorActual.atm.get("20") ==null)?"0":contadorActual.atm.get("20")) ;
-                    suma += Integer.parseInt ((contadorActual.fit.get("50") ==null)?"0":contadorActual.fit.get("50")) ;
-                    suma += Integer.parseInt ((contadorActual.ufit.get("50") ==null)?"0":contadorActual.ufit.get("50")) ;
-                    suma += Integer.parseInt ((contadorActual.atm.get("50") ==null)?"0":contadorActual.atm.get("50")) ;
-                    suma += Integer.parseInt ((contadorActual.fit.get("100") ==null)?"0":contadorActual.fit.get("100")) ;
-                    suma += Integer.parseInt ((contadorActual.ufit.get("100") ==null)?"0":contadorActual.ufit.get("100")) ;
-                    suma += Integer.parseInt ((contadorActual.atm.get("100") ==null)?"0":contadorActual.atm.get("100")) ;
-                    suma += Integer.parseInt ((contadorActual.fit.get("200") ==null)?"0":contadorActual.fit.get("200"));
-                    suma += Integer.parseInt ((contadorActual.ufit.get("200") ==null)?"0":contadorActual.ufit.get("200")) ;
-                    suma += Integer.parseInt ((contadorActual.atm.get("200") ==null)?"0":contadorActual.atm.get("200"));
-                    suma += Integer.parseInt ((contadorActual.fit.get("500") ==null)?"0":contadorActual.fit.get("500")) ;
-                    suma += Integer.parseInt ((contadorActual.ufit.get("500") ==null)?"0":contadorActual.ufit.get("500"));
-                    suma += Integer.parseInt ((contadorActual.atm.get("500") ==null)?"0":contadorActual.atm.get("500")) ;
-                    suma += Integer.parseInt ((contadorActual.fit.get("1000")==null)?"0":contadorActual.fit.get("1000")) ;
-                    suma += Integer.parseInt ((contadorActual.ufit.get("1000")==null)?"0":contadorActual.ufit.get("1000"));
-                    suma += Integer.parseInt ((contadorActual.atm.get("1000")==null)?"0":contadorActual.atm.get("1000"));
+        for (int i = 0; i < contadorActual.atm.size(); i++) {
+        	 suma += Integer.parseInt((contadorActual.fit.get(contadorActual.billetes[i]) ==null)?"0":contadorActual.fit.get(contadorActual.billetes[i])) ;
+             suma += Integer.parseInt((contadorActual.ufit.get(contadorActual.billetes[i]) ==null)?"0":contadorActual.ufit.get(contadorActual.billetes[i])) ;
+             suma += Integer.parseInt((contadorActual.atm.get(contadorActual.billetes[i]) ==null)?"0":contadorActual.atm.get(contadorActual.billetes[i])) ;
+        }
         
                     if(suma < 1){
                         return true;
@@ -126,6 +105,16 @@ public class JavaPostgreSQL {
         
         
         Statement stmnt = null;
+        
+        for(int i = 0; i < contadorActual.atm.size(); i++) {
+        	
+        	conteo += (contadorActual.fit.get(contadorActual.billetes[i]) ==null)?"0":contadorActual.fit.get(contadorActual.billetes[i]) + ",";
+        	conteo += (contadorActual.ufit.get(contadorActual.billetes[i]) ==null)?"0":contadorActual.ufit.get(contadorActual.billetes[i]) + ",";
+        	conteo += (contadorActual.atm.get(contadorActual.billetes[i]) ==null)?"0":contadorActual.atm.get(contadorActual.billetes[i]) + ",";
+        }
+        
+        System.out.println(conteo);
+        
         try{
             stmnt = con.createStatement();
             String sql = "INSERT INTO " + table + " (" +
@@ -140,60 +129,44 @@ public class JavaPostgreSQL {
 "CANTIDAD_10F ,"+
 "CANTIDAD_10U ,"+ 
 "CANTIDAD_10A ,"+ 
-"CANTIDAD_20F ,"+ 
-"CANTIDAD_20U ,"+
-"CANTIDAD_20A ,"+
-"CANTIDAD_50F ,"+
-"CANTIDAD_50U ,"+
-"CANTIDAD_50A ,"+
-"CANTIDAD_100F ,"+ 
-"CANTIDAD_100U ,"+
-"CANTIDAD_100A ,"+
+"CANTIDAD_20F_0 ,"+ 
+"CANTIDAD_20U_0 ,"+
+"CANTIDAD_20A_0 ,"+
+"CANTIDAD_20F_1 ,"+ 
+"CANTIDAD_20U_1 ,"+
+"CANTIDAD_20A_1 ,"+
+"CANTIDAD_50F_0 ,"+
+"CANTIDAD_50U_0 ,"+
+"CANTIDAD_50A_0 ,"+
+"CANTIDAD_50F_1 ,"+
+"CANTIDAD_50U_1 ,"+
+"CANTIDAD_50A_1 ,"+
+"CANTIDAD_100F_0 ,"+ 
+"CANTIDAD_100U_0 ,"+
+"CANTIDAD_100A_0 ,"+
+"CANTIDAD_100F_1 ,"+ 
+"CANTIDAD_100U_1 ,"+
+"CANTIDAD_100A_1 ,"+
+"CANTIDAD_100F_2 ,"+ 
+"CANTIDAD_100U_2 ,"+
+"CANTIDAD_100A_2 ,"+
 "CANTIDAD_200F ,"+
 "CANTIDAD_200U ,"+
 "CANTIDAD_200A ,"+ 
 "CANTIDAD_500F ,"+
 "CANTIDAD_500U ,"+
-"CANTIDAD_500A ,"+ 
-"CANTIDAD_1000F ,"+
-"CANTIDAD_1000U ,"+
-"CANTIDAD_1000A ,"+
+"CANTIDAD_500A ,"+
 "ESTADO)"                    + "VALUES "
                     + "("
                     + puesto + ","
                     + "now()" + ","
-                    + ((contadorActual.fit.get("2") ==null)?"0":contadorActual.fit.get("2")) + ","
-                    + ((contadorActual.ufit.get("2") ==null)?"0":contadorActual.ufit.get("2")) + ","
-                    + ((contadorActual.atm.get("2") ==null)?"0":contadorActual.atm.get("2")) + ","
-                    + ((contadorActual.fit.get("5") ==null)?"0":contadorActual.fit.get("5")) + ","
-                    + ((contadorActual.ufit.get("5") ==null)?"0":contadorActual.ufit.get("5")) + ","
-                    + ((contadorActual.atm.get("5") ==null)?"0":contadorActual.atm.get("5")) + ","
-                    + ((contadorActual.fit.get("10") ==null)?"0":contadorActual.fit.get("10")) + ","
-                    + ((contadorActual.ufit.get("10") ==null)?"0":contadorActual.ufit.get("10")) + ","
-                    + ((contadorActual.atm.get("10") ==null)?"0":contadorActual.atm.get("10")) + ","
-                    + ((contadorActual.fit.get("20") ==null)?"0":contadorActual.fit.get("20")) + ","
-                    + ((contadorActual.ufit.get("20") ==null)?"0":contadorActual.ufit.get("20")) + ","
-                    + ((contadorActual.atm.get("20") ==null)?"0":contadorActual.atm.get("20")) + ","
-                    + ((contadorActual.fit.get("50") ==null)?"0":contadorActual.fit.get("50")) + ","
-                    + ((contadorActual.ufit.get("50") ==null)?"0":contadorActual.ufit.get("50")) + ","
-                    + ((contadorActual.atm.get("50") ==null)?"0":contadorActual.atm.get("50")) + ","
-                    + ((contadorActual.fit.get("100") ==null)?"0":contadorActual.fit.get("100")) + ","
-                    + ((contadorActual.ufit.get("100") ==null)?"0":contadorActual.ufit.get("100")) + ","
-                    + ((contadorActual.atm.get("100") ==null)?"0":contadorActual.atm.get("100")) + ","
-                    + ((contadorActual.fit.get("200") ==null)?"0":contadorActual.fit.get("200")) + ","
-                    + ((contadorActual.ufit.get("200") ==null)?"0":contadorActual.ufit.get("200")) + ","
-                    + ((contadorActual.atm.get("200") ==null)?"0":contadorActual.atm.get("200")) + ","
-                    + ((contadorActual.fit.get("500") ==null)?"0":contadorActual.fit.get("500")) + ","
-                    + ((contadorActual.ufit.get("500") ==null)?"0":contadorActual.ufit.get("500")) + ","
-                    + ((contadorActual.atm.get("500") ==null)?"0":contadorActual.atm.get("500")) + ","
-                    + ((contadorActual.fit.get("1000")==null)?"0":contadorActual.fit.get("1000")) + ","
-                    + ((contadorActual.ufit.get("1000")==null)?"0":contadorActual.ufit.get("1000")) + ","
-                    + ((contadorActual.atm.get("1000")==null)?"0":contadorActual.atm.get("1000")) + ","
+                    +conteo
                     + "99"
                     + ")";
             stmnt.executeUpdate(sql);
             return true;
         }catch (Exception e){
+        	
             System.out.println("Error al insertar el conteo en el servidor de BBDD: "+ e.getMessage());
         }
 
@@ -209,7 +182,7 @@ public class JavaPostgreSQL {
         ResultSet res;
         try {
           Statement statement = con.createStatement();
-          res = statement.executeQuery("select cambio_estado(0);");
+          res = statement.executeQuery("select cambio_prm(0);");
          }
        catch (SQLException ex) {
             System.err.println( ex.getMessage() );
