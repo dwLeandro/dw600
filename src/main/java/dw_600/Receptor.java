@@ -99,9 +99,10 @@ public class Receptor implements Runnable{
 
   if(datos.startsWith("2a")) {
 	
-	if(!ModeSafeGuard.instance().getCount()) {
+	if(!ModeSafeGuard.instance().getCount() || datos.substring(6).startsWith("c0")) {
 		return true;
 	}
+	
 		
 	}    
     
