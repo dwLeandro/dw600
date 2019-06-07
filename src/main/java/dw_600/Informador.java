@@ -51,7 +51,7 @@ public class Informador  implements Runnable{
     	Connection con = this.db.dbConnect(
                 params.getHost(),
                 params.getPort(),params.getBase(),params.getUser(),params.getPassword());
-        this.db.cambiarEstado(con);
+        this.db.cambiarEstado(con, params.getPuesto());
         try{
             con.close();
         }catch (Exception e){

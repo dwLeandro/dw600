@@ -18,7 +18,6 @@ public class SocketCon implements Runnable{
 	Socket socket;
 	String path;
 	Actuador actuador;
-	int ultimoModo = 0;
 	private static final Logger LOGGER = Logger.getLogger(SocketCon.class.getName());
 	
 	public SocketCon(Actuador a, int puesto, String path) {
@@ -80,7 +79,7 @@ public class SocketCon implements Runnable{
 				e.printStackTrace();
 			}
 			
-			if((ultimoModo != modo) && actuador.modoValido(modo) ) {
+			if(actuador.puedeCambiar(modo) ) {
 				if(comprobarPuesto(puestoRecibido)) {
 					System.out.println("Modo recibido:");
 					System.out.println(modo);
@@ -88,9 +87,6 @@ public class SocketCon implements Runnable{
 					actuador.setPattern(modo);
 				}
 			}
-			
-			ultimoModo = modo;
-			
 			  
 		  }
 
@@ -109,28 +105,7 @@ public class SocketCon implements Runnable{
 				}
 				
 				if(comprobarPuesto(puestoRecibido)) {
-					actuador.abrirTX();
-				}
-				  
-			  }
-
-		}).on("endTX", new Emitter.Listener() {
-
-			  @Override
-			  public void call(Object... args) {
-				 
-				  JSONObject obj = (JSONObject) args[0];
-				  int puestoRecibido = -1;
-				  
-				  try {
-					puestoRecibido = obj.getInt("puesto");
-				} catch (JSONException e) {
-					e.printStackTrace();
-				}
-				
-				if(comprobarPuesto(puestoRecibido)) {
-					
-					 actuador.cerrarTX();
+					actuador.finalizarCount();
 				}
 				  
 			  }

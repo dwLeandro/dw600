@@ -176,13 +176,13 @@ public class JavaPostgreSQL {
     
     
     
-    public void cambiarEstado(Connection con)
+    public void cambiarEstado(Connection con, int puesto)
     {	
     	System.out.println("cambio estado");
         ResultSet res;
         try {
           Statement statement = con.createStatement();
-          res = statement.executeQuery("select cambio_prm(0);");
+          res = statement.executeQuery("select cambio_prm(" + puesto + ");");
          }
        catch (SQLException ex) {
             System.err.println( ex.getMessage() );

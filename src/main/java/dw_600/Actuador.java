@@ -7,6 +7,7 @@ public class Actuador {
 	SerialCon serial;
 	Map<Integer, String> patrones;
 	Ducit600 ducit;
+	int ultimoModo = 1;
 	ModeSafeGuard s = ModeSafeGuard.instance();
  
 	
@@ -25,8 +26,7 @@ public class Actuador {
 	
 	void setPattern(int numero) {
 		
-//		serial.write("100230303127100315", false);   // stop count
-		
+//		serial.write("100230303127100315", false);   // stop count	
 		s.dontAcceptCount();
 		
 		try {
@@ -37,29 +37,33 @@ public class Actuador {
 		}
 		
 		cerrarTX();		
-
-		while(s.getError()) {
-
-			try {
-				Thread.sleep(150);
-			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			
-			
-			
-			this.serial.write(patrones.get(numero), false);
-			
-
-			try {
-				Thread.sleep(500);
-			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			
 		
+		if(numero != 0) {
+		
+			while(s.getError()) {
+
+				try {
+					Thread.sleep(150);
+				} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			
+			
+			
+					this.serial.write(patrones.get(numero), false);
+			
+			
+			
+
+				try {
+					Thread.sleep(500);
+				} 	catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			
+			}
 			
 		}
 	
@@ -74,7 +78,7 @@ public class Actuador {
 		
 		s.setError(true);
 		
-		
+		ultimoModo = numero;
 		
 		
 		
@@ -97,12 +101,23 @@ public class Actuador {
 		this.serial = serial;
 	}
 
-
+	public void finalizarCount() {
+		this.setPattern(ultimoModo);
+	}
 
 	public boolean modoValido(int modo) {
 
 		return modo <= patrones.size();
 	}
-
+	
+	public boolean puedeCambiar(int modo) {
+		
+		if(modo != this.ultimoModo && this.modoValido(modo)) {
+			ultimoModo = modo;
+			return true;
+		}else{
+			return false;
+		}
+	}
 
 }
