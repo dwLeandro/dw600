@@ -1,8 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package dw_600;
 import gnu.io.*;
 import gnu.io.CommPort;
@@ -27,10 +23,7 @@ import com.sun.javafx.sg.prism.NGShape.Mode;
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
-/**
- *
- * @author juan
- */
+
 public class Receptor implements Runnable{
 
     InputStream in;
@@ -99,10 +92,11 @@ public class Receptor implements Runnable{
 
   if(datos.startsWith("2a")) {
 	
-	if(!ModeSafeGuard.instance().getCount() || datos.substring(6).startsWith("c0")) {
+	  if(!ModeSafeGuard.instance().getCount() || datos.substring(6).startsWith("c0")) {
 		return true;
-	}
-	
+		}
+	 
+	  
 		
 	}    
 

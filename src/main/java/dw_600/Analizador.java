@@ -1,17 +1,9 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package dw_600;
 
 import java.util.LinkedList;
 import java.util.Map;
 
-/**
- *
- * @author juan
- */
 public class Analizador implements Runnable{
     
     LinkedList respuestas;
@@ -68,8 +60,11 @@ public class Analizador implements Runnable{
                             this.informacion.no.put(String.format("%2s",  i.toString()).replace(' ', '0'), no);
                             
                         }
+                        
 
                     }
+                    System.out.println(informacion.ids.values());
+
                 }
             break;
             

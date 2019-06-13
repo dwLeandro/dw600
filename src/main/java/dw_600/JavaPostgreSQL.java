@@ -1,8 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package dw_600;
 
 import java.sql.*;
@@ -13,7 +9,6 @@ import org.postgresql.Driver.*;
 
 import static java.lang.System.exit;
 public class JavaPostgreSQL {
-    //MenuConsole m = null;
     Connection conexion = null;
     JavaPostgreSQL(){
 
@@ -156,6 +151,9 @@ public class JavaPostgreSQL {
 "CANTIDAD_500F ,"+
 "CANTIDAD_500U ,"+
 "CANTIDAD_500A ,"+
+"CANTIDAD_1000F ,"+
+"CANTIDAD_1000U ,"+
+"CANTIDAD_1000A ,"+
 "ESTADO)"                    + "VALUES "
                     + "("
                     + puesto + ","
@@ -182,7 +180,7 @@ public class JavaPostgreSQL {
         ResultSet res;
         try {
           Statement statement = con.createStatement();
-          res = statement.executeQuery("select cambio_prm(" + puesto + ");");
+          res = statement.executeQuery("select cambio_estado_uw600(" + puesto + ");");
          }
        catch (SQLException ex) {
             System.err.println( ex.getMessage() );
