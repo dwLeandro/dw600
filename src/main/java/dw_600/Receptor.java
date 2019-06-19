@@ -92,7 +92,7 @@ public class Receptor implements Runnable{
 
   if(datos.startsWith("2a")) {
 	
-	  if(!ModeSafeGuard.instance().getCount() || datos.substring(6).startsWith("c0")) {
+	  if(!ModeSafeGuard.instance().getCount() || this.validar(datos)) {
 		return true;
 		}
 	 
@@ -119,7 +119,12 @@ public class Receptor implements Runnable{
         return true;
     }
     
-    boolean leerInicio(){
+    private boolean validar(String datos) {
+    	String tmp = datos.substring(6);
+		return tmp.startsWith("c0") || tmp.startsWith("c3") || tmp.startsWith("c4") || tmp.startsWith("c5");
+	}
+
+	boolean leerInicio(){
         Byte inicio;
         while(true){
              inicio=new Byte( readByte());
