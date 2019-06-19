@@ -21,7 +21,17 @@ public class Informador  implements Runnable{
         this.billetes = informacion.billetes;
         
         this.params = p;
-        this.db = new JavaPostgreSQL();
+        
+        String sp;
+        
+        if(p.getTable() == "conteouw600") {
+        	
+        	sp = "cambio_estado_uw600";
+        } else {
+        	sp = "cambio_prm";
+        }
+        
+        this.db = new JavaPostgreSQL(sp);
     }    
     @Override
     public void run (){

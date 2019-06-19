@@ -10,8 +10,10 @@ import org.postgresql.Driver.*;
 import static java.lang.System.exit;
 public class JavaPostgreSQL {
     Connection conexion = null;
-    JavaPostgreSQL(){
-
+    String procedure;
+    
+    JavaPostgreSQL(String sp){
+    	procedure = sp;
     }
 
 
@@ -177,7 +179,7 @@ public class JavaPostgreSQL {
         ResultSet res;
         try {
           Statement statement = con.createStatement();
-          res = statement.executeQuery("select cambio_estado_uw600(" + puesto + ");");
+          res = statement.executeQuery("select " + procedure + "(" + puesto + ");");
          }
        catch (SQLException ex) {
             System.err.println( ex.getMessage() );
