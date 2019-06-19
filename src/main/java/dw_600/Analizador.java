@@ -47,6 +47,7 @@ public class Analizador implements Runnable{
         
             case "2b":
                 nd = datos.get("ND");
+                System.out.println("Cantidad de denomiaciones:" + nd);
                 if(nd != null){
                     for(Integer i = 0;i< Integer.parseInt(nd);i++){
                         temp = String.format("%3s",  i.toString()).replace(' ', '0');
@@ -69,7 +70,7 @@ public class Analizador implements Runnable{
             break;
             
             case "2a":
-
+            	System.out.println(datos);
                 nd = datos.get("ND");
                 if(nd != null){
                     this.informacion.atm.clear();
@@ -82,7 +83,6 @@ public class Analizador implements Runnable{
                         id = this.informacion.ids.get(i.toString());
                          if(id != null&&vl != null){
                              this.informacion.atm.put(id, vl);
-     
                         }
                         vl = datos.get("TELLER_"+temp);
                         id = this.informacion.ids.get(i.toString());
@@ -91,13 +91,13 @@ public class Analizador implements Runnable{
                         	 this.informacion.fit.put(id, vl);
 
                         }
-                         
                         vl = datos.get("UNFIT_"+temp);
                         id = this.informacion.ids.get(i.toString());
                          if(id != null&&vl != null){
                         	 this.informacion.ufit.put(id, vl);
 
                         }
+                         
 
                     }
                 }

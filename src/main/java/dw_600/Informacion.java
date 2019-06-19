@@ -11,7 +11,7 @@ public class Informacion {
     public Map<String,String> ufit;
     public Map<String,String> ids;
     public Map<String, String> no;
-    public String[] billetes = {"2_0", "5_0" ,"10_0", "20_0", "20_1", "50_0", "50_1", "100_0", "100_1", "100_2", "200_0", "500_0", "1000_0"}; 
+    public String[] billetes = {"2_0", "5_0" ,"10_0", "20_0", "20_1", "50_0", "50_1", "100_0", "100_1", "100_2", "200_0", "500_0"}; 
     
 
     
