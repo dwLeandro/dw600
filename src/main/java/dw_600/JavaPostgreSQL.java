@@ -153,6 +153,9 @@ public class JavaPostgreSQL {
 "CANTIDAD_500F ,"+
 "CANTIDAD_500U ,"+
 "CANTIDAD_500A ,"+
+"CANTIDAD_1000F ,"+
+"CANTIDAD_1000U ,"+
+"CANTIDAD_1000A ,"+
 "ESTADO)"                    + "VALUES "
                     + "("
                     + puesto + ","

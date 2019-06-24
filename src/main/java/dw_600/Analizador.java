@@ -70,7 +70,7 @@ public class Analizador implements Runnable{
             break;
             
             case "2a":
-            	System.out.println(datos);
+//            	System.out.println(datos);
                 nd = datos.get("ND");
                 if(nd != null){
                     this.informacion.atm.clear();

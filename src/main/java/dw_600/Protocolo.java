@@ -27,7 +27,7 @@ public class Protocolo {
     }
 
     static String getGetCounts(){
-        return "10023030322a0c100317";//"10023030322a0b100310";//"10 02 30 30 32 2a 0b 10 03 10";
+        return "10023030322a0d100316";//"10023030322a0b100310";//"10 02 30 30 32 2a 0b 10 03 10";
     }          
 
     static String getGetDenomination(){

@@ -24,7 +24,7 @@ public class Informador  implements Runnable{
         
         String sp;
         
-        if(p.getTable() == "conteouw600") {
+        if(p.getTable().equalsIgnoreCase("conteouw600")) {
         	
         	sp = "cambio_estado_uw600";
         } else {
