@@ -1,6 +1,7 @@
 
 package dw_600;
 
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Map;
 
@@ -8,6 +9,8 @@ public class Analizador implements Runnable{
     
     LinkedList respuestas;
     Informacion informacion;
+    Map<String,String> ids = new HashMap<>();
+	Map<String, String> no = new HashMap<>();
     
     public Analizador(LinkedList r,Informacion i){
         this.respuestas = r;
@@ -59,6 +62,8 @@ public class Analizador implements Runnable{
                         if(id != null){
                             this.informacion.ids.put(id, vl + "_" + no);
                             this.informacion.no.put(String.format("%2s",  i.toString()).replace(' ', '0'), no);
+                            this.ids.put(id, vl + "_" + no);
+                            this.no.put(String.format("%2s",  i.toString()).replace(' ', '0'), no);
                             
                         }
                         
@@ -70,24 +75,33 @@ public class Analizador implements Runnable{
             break;
             
             case "2a":
-//            	System.out.println(datos);
+
                 nd = datos.get("ND");
                 if(nd != null){
-                    this.informacion.atm.clear();
-                    this.informacion.fit.clear();
-                    this.informacion.ufit.clear();
+                    
+                	String sr1 = datos.get("SR1");
+                	String sr2 = datos.get("SR2");
+                	String sr3 = datos.get("SR3");
+                	
+                	if(validar(sr1, sr2, sr3)) {
+                		break;
+                	}
+                	
+                	informacion.atm.clear();
+                	informacion.fit.clear();
+                	informacion.ufit.clear();
+                    
                     for(Integer i = 0;i< Integer.parseInt(nd);i++){
                     	
                         temp = String.format("%2s",  i.toString()).replace(' ', '0');
                         vl = datos.get("ATM_"+temp);
                         id = this.informacion.ids.get(i.toString());
                          if(id != null&&vl != null){
-                             this.informacion.atm.put(id, vl);
+                        	 this.informacion.atm.put(id, vl);
                         }
                         vl = datos.get("TELLER_"+temp);
                         id = this.informacion.ids.get(i.toString());
                          if(id != null&&vl != null){
-                        	 
                         	 this.informacion.fit.put(id, vl);
 
                         }
@@ -97,9 +111,12 @@ public class Analizador implements Runnable{
                         	 this.informacion.ufit.put(id, vl);
 
                         }
-                         
 
                     }
+                    
+                    System.out.println(informacion.atm);
+                    System.out.println(informacion.ufit);
+                    System.out.println(informacion.fit);
                 }
                     
             break;
@@ -110,4 +127,20 @@ public class Analizador implements Runnable{
         
         //this.informacion.id_1000_A = datos.get("")
     }
+	private boolean validar(String sr1, String sr2, String sr3) {
+		
+		System.out.println(sr1);
+		System.out.println(sr2);
+		System.out.println(sr3);
+		
+		if(sr1 != "1000000") {
+			return false;
+		}
+		
+		if(sr3 != "11000001") {
+			return false;
+		}
+		
+		return true;
+	}
 }

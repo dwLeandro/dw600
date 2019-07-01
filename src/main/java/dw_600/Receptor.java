@@ -68,13 +68,23 @@ public class Receptor implements Runnable{
             
      try{   
     BufferedWriter writer = new BufferedWriter(new FileWriter("log.txt", true));
-    
+
+//    byte[] a = paquete.data.clone();
+//    int[] unsigned = new int[a.length];
+//    for (int i = 0; i < a.length; i++) {
+//        unsigned[i] = Byte.toUnsignedInt(a[i]);
+//    }
+//    
+//    String dat = String.format("%x", unsigned);
+//    System.out.println(dat);
     
     String datos = String.format("%x", new BigInteger(1, paquete.data));
     
     writer.append("==========================================================");
-    writer.append(paquete.raw);
+    writer.append(datos);
     writer.close();
+    
+ 
     
     if(datos.startsWith("2d")) {
     	
@@ -92,7 +102,7 @@ public class Receptor implements Runnable{
 
   if(datos.startsWith("2a")) {
 	
-	  if(!ModeSafeGuard.instance().getCount() || this.validar(datos)) {
+	  if(!ModeSafeGuard.instance().getCount() /* || this.validar(datos)*/) {
 		return true;
 		}
 	 
@@ -121,7 +131,12 @@ public class Receptor implements Runnable{
     
     private boolean validar(String datos) {
     	String tmp = datos.substring(6);
-		return tmp.startsWith("c0") || tmp.startsWith("c3") || tmp.startsWith("c4") || tmp.startsWith("c5");
+    	if(!tmp.startsWith("c1")) {
+    		System.out.println("datos invalidos: " + datos);
+    		return true;
+    	} else {
+    		return false;
+    	}
 	}
 
 	boolean leerInicio(){

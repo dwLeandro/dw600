@@ -25,7 +25,7 @@ public class JavaPostgreSQL {
         {
             try{
                 con.close();
-                System.out.println("Test de conexión con el servidor PostgreSQL exitoso");
+                System.out.println("Test de conexion con el servidor PostgreSQL exitoso");
             }catch (Exception e){
                 System.out.println("No se pudo cerrar la conexión con la base");
             }

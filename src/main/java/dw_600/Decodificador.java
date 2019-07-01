@@ -198,11 +198,23 @@ public class Decodificador  implements Runnable{
         //if(Integer.parseInt(l) >=c.cadena.length()){return "";}
         switch( t){
             case "CHAR":
-                s = Arrays.copyOfRange(c.cadena, 0, Integer.parseInt(l));
+//                s = Arrays.copyOfRange(c.cadena, 0, Integer.parseInt(l));
+//                //s = c.cadena.substring(0, Integer.parseInt(l));
+//                c.cadena = Arrays.copyOfRange(c.cadena, Integer.parseInt(l), c.cadena.length);
+//                //c.cadena = c.cadena.substring(Integer.parseInt(l));
+//                return new String(s);
+            	s = Arrays.copyOfRange(c.cadena, 0, Integer.parseInt(l));
                 //s = c.cadena.substring(0, Integer.parseInt(l));
-                c.cadena = Arrays.copyOfRange(c.cadena, Integer.parseInt(l), c.cadena.length);
                 //c.cadena = c.cadena.substring(Integer.parseInt(l));
-                return new String(s);
+                c.cadena = Arrays.copyOfRange(c.cadena, Integer.parseInt(l), c.cadena.length);
+                bytes = s;
+                str="";
+                for(Integer ii=0;ii<bytes.length;ii++){
+                   // s+= Integer.toBinaryString((int)bytes[ii]);
+                   
+                   str+=  ConvertByteAString2(bytes[ii]);
+                }
+                return str;
 
             case "INT":
                 //s = c.cadena.substring(0, Integer.parseInt(l));
@@ -210,6 +222,8 @@ public class Decodificador  implements Runnable{
                 //c.cadena = c.cadena.substring(Integer.parseInt(l));
                 c.cadena = Arrays.copyOfRange(c.cadena, Integer.parseInt(l), c.cadena.length);
                 //bytes = s.getBytes();
+                
+                
                 for(Integer i=s.length-1,ii=0;i>-1;i--,ii++){
                     if(s[i]<0){
                          r+= p*  (s[i]+256);
@@ -218,6 +232,7 @@ public class Decodificador  implements Runnable{
                     }
                     p=p*256;
                 }
+
                 return r.toString();
 
             case "BITARR":
@@ -241,7 +256,7 @@ public class Decodificador  implements Runnable{
     String ConvertByteAString(byte bb){
         
         String s = "";
-        int b =(int) bb;
+        int b = Byte.toUnsignedInt(bb);
         
         if(b < 0){
             s +="1";
@@ -304,6 +319,16 @@ public class Decodificador  implements Runnable{
          return s;
 
     }
+ 
+    String ConvertByteAString2(byte bb){
+        
+        int b = Byte.toUnsignedInt(bb);
+        
+        return Integer.toBinaryString(b);
+
+    } 
+    
+
     
     String reemplazarReferencia(Map<String,String> datos,String referencia){
         
