@@ -83,7 +83,6 @@ public class Analizador implements Runnable{
                 	String sr2 = datos.get("SR2");
                 	String sr3 = datos.get("SR3");
                 	String tp = datos.get("TYPE");
-                	System.out.println(tp);
                 	System.out.println(datos.keySet());
                 	
                 	if(validar(sr1, sr2, sr3)) {
