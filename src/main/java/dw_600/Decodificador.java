@@ -8,12 +8,14 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.math.BigInteger;
+import java.nio.ByteBuffer;
 import java.sql.Connection;
 import java.util.*;
 
 import javax.script.ScriptEngineManager;
 import javax.script.ScriptEngine;
 import javax.script.ScriptException;
+
 
 
 
@@ -224,16 +226,54 @@ public class Decodificador  implements Runnable{
                 //bytes = s.getBytes();
                 
                 
-                for(Integer i=s.length-1,ii=0;i>-1;i--,ii++){
-                    if(s[i]<0){
-                         r+= p*  (s[i]+256);
-                    }else{
-                        r+= p*  s[i]; 
+//                for(Integer i=s.length-1,ii=0;i>-1;i--,ii++){
+//                    if(s[i]<0){
+//                         r+= p*  (s[i]+256);
+//                    }else{
+//                        r+= p*  s[i]; 
+//                    }
+//                    p=p*256;
+//                }
+//
+//                return r.toString();
+                
+                bytes = s;
+                str="";
+//
+//                for (int i = 0; i < bytes.length; i++) {
+//                	str+=  ConvertByteAString2(bytes[i]);
+//                }
+//                
+//                p = Integer.parseUnsignedInt(str, 2);
+                if(bytes.length < 4) {
+                  for (int i = 0; i < bytes.length; i++) {
+                	str+=  ConvertByteAString2(bytes[i]);
+                  }
+                
+                  p = Integer.parseUnsignedInt(str, 2);
+                  
+                  if(p > 2000) {
+                  	System.out.println("error int" + str);
+                  }
+                  
+                } else {
+                	ByteBuffer buffer = ByteBuffer.wrap(bytes);
+                    p = buffer.getInt();
+                    
+                    if(p > 2000) {
+                    	System.out.println("error int WRAP");
                     }
-                    p=p*256;
                 }
-
-                return r.toString();
+                
+         
+                
+                
+                if(Integer.parseUnsignedInt(p.toString()) > 2000) {
+                	System.out.println("error str");
+                }
+                return p.toString();
+                
+                
 
             case "BITARR":
                 s = Arrays.copyOfRange(c.cadena, 0, Integer.parseInt(l));
@@ -245,7 +285,7 @@ public class Decodificador  implements Runnable{
                 for(Integer ii=0;ii<bytes.length;ii++){
                    // s+= Integer.toBinaryString((int)bytes[ii]);
                    
-                   str+=  ConvertByteAString(bytes[ii]);
+                   str+=  ConvertByteAString2(bytes[ii]);
                 }
                 return str;
         
@@ -323,8 +363,22 @@ public class Decodificador  implements Runnable{
     String ConvertByteAString2(byte bb){
         
         int b = Byte.toUnsignedInt(bb);
+
         
-        return Integer.toBinaryString(b);
+        String binario = Integer.toBinaryString(b);
+        
+        String padded  = String.format("%8s", binario).replace(' ', '0');
+        
+        return padded;
+
+    } 
+    
+    int ConvertByteAString3(byte bb){
+        
+        int b = bb & 0xFF;
+
+        
+        return b;
 
     } 
     
