@@ -36,21 +36,6 @@ public class ModeSafeGuard {
 	public void habilitarCambioDeModo() {
 		semaforo.release();
 	}
-//	
-//	public void bloquearReceptor() {
-//		System.out.println("Bloqueo");
-//		try {
-//			semaforoRecept.acquire();
-//		} catch (InterruptedException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
-//	}
-//	
-//	public void habilitarReceptor() {
-//		System.out.println("Habilito");
-//		semaforoRecept.release();
-//	}
 
 	public boolean getError() {
 		return error;

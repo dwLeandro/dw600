@@ -85,7 +85,6 @@ public class Decodificador  implements Runnable{
 
         try {
           final String dir = System.getProperty("user.dir");
-          //System.out.println("current dir = " + dir);
            archivo = new File (dir+"/patern.dat");
            fr = new FileReader (archivo);
            br = new BufferedReader(fr);
@@ -197,54 +196,24 @@ public class Decodificador  implements Runnable{
         Integer r=0,p=1;
         byte[] bytes;
         String str;
-        //if(Integer.parseInt(l) >=c.cadena.length()){return "";}
         switch( t){
             case "CHAR":
-//                s = Arrays.copyOfRange(c.cadena, 0, Integer.parseInt(l));
-//                //s = c.cadena.substring(0, Integer.parseInt(l));
-//                c.cadena = Arrays.copyOfRange(c.cadena, Integer.parseInt(l), c.cadena.length);
-//                //c.cadena = c.cadena.substring(Integer.parseInt(l));
-//                return new String(s);
             	s = Arrays.copyOfRange(c.cadena, 0, Integer.parseInt(l));
-                //s = c.cadena.substring(0, Integer.parseInt(l));
-                //c.cadena = c.cadena.substring(Integer.parseInt(l));
                 c.cadena = Arrays.copyOfRange(c.cadena, Integer.parseInt(l), c.cadena.length);
                 bytes = s;
                 str="";
-                for(Integer ii=0;ii<bytes.length;ii++){
-                   // s+= Integer.toBinaryString((int)bytes[ii]);
-                   
+                for(Integer ii=0;ii<bytes.length;ii++){   
                    str+=  ConvertByteAString2(bytes[ii]);
                 }
                 return str;
 
             case "INT":
-                //s = c.cadena.substring(0, Integer.parseInt(l));
                 s = Arrays.copyOfRange(c.cadena, 0, Integer.parseInt(l));
-                //c.cadena = c.cadena.substring(Integer.parseInt(l));
                 c.cadena = Arrays.copyOfRange(c.cadena, Integer.parseInt(l), c.cadena.length);
-                //bytes = s.getBytes();
-                
-                
-//                for(Integer i=s.length-1,ii=0;i>-1;i--,ii++){
-//                    if(s[i]<0){
-//                         r+= p*  (s[i]+256);
-//                    }else{
-//                        r+= p*  s[i]; 
-//                    }
-//                    p=p*256;
-//                }
-//
-//                return r.toString();
-                
+
                 bytes = s;
                 str="";
-//
-//                for (int i = 0; i < bytes.length; i++) {
-//                	str+=  ConvertByteAString2(bytes[i]);
-//                }
-//                
-//                p = Integer.parseUnsignedInt(str, 2);
+
                 if(bytes.length < 4) {
                   for (int i = 0; i < bytes.length; i++) {
                 	str+=  ConvertByteAString2(bytes[i]);
@@ -277,14 +246,10 @@ public class Decodificador  implements Runnable{
 
             case "BITARR":
                 s = Arrays.copyOfRange(c.cadena, 0, Integer.parseInt(l));
-                //s = c.cadena.substring(0, Integer.parseInt(l));
-                //c.cadena = c.cadena.substring(Integer.parseInt(l));
                 c.cadena = Arrays.copyOfRange(c.cadena, Integer.parseInt(l), c.cadena.length);
                 bytes = s;
                 str="";
                 for(Integer ii=0;ii<bytes.length;ii++){
-                   // s+= Integer.toBinaryString((int)bytes[ii]);
-                   
                    str+=  ConvertByteAString2(bytes[ii]);
                 }
                 return str;
@@ -293,72 +258,6 @@ public class Decodificador  implements Runnable{
         return "";
     }
     
-//    String ConvertByteAString(byte bb){
-//        
-//        String s = "";
-//        int b = Byte.toUnsignedInt(bb);
-//        
-//        if(b < 0){
-//            s +="1";
-//            b=b+256;
-//            b=b-128;
-//        }else{
-//            s +="0";        
-//        }
-//
-//        
-//
-//        if(b >= 64){
-//            s +="1";
-//            b=b-64;
-//        }else{
-//            s +="0";        
-//        }
-//
-//        if(b >= 32){
-//            s +="1";
-//            b=b-32;
-//        }else{
-//            s +="0";        
-//        }
-//       
-//         if(b >= 16){
-//            s +="1";
-//            b=b-16;
-//        }else{
-//            s +="0";        
-//        }       
-//
-//        if(b >= 8){
-//            s +="1";
-//            b=b-8;
-//        }else{
-//            s +="0";        
-//        }            
-//           if(b >= 4){
-//            s +="1";
-//            b=b-4;
-//        }else{
-//            s +="0";        
-//        }
-//
-//        if(b >= 2){
-//            s +="1";
-//            b=b-2;
-//        }else{
-//            s +="0";        
-//        }
-//       
-//         if(b >= 1){
-//            s +="1";
-//            b=b-1;
-//        }else{
-//            s +="0";        
-//        }       
-//           
-//         return s;
-//
-//    }
  
     String ConvertByteAString2(byte bb){
         

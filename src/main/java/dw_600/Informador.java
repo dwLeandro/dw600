@@ -63,10 +63,6 @@ public class Informador  implements Runnable{
 	}
 	public void informar(){
         
-
-
-
-
         if(this.enviada.atm.equals(this.informacion.atm)&&
                 this.enviada.fit.equals(this.informacion.fit)&&
                 this.enviada.ufit.equals(this.informacion.ufit)
@@ -74,17 +70,6 @@ public class Informador  implements Runnable{
             return;
         }
 
-        
-//        for(int i = 0; i < informacion.atm.size(); i++) {
-//        	String billete = billetes[i];
-//        	System.out.println("CANTIDAD_F_" + billete + ": "+     ((this.informacion.fit.get(billete)  == null)?0:this.informacion.fit.get(billete)) + "\n");
-//        	System.out.println("CANTIDAD_U_" + billete + ": "+     ((this.informacion.ufit.get(billete)  == null)?0:this.informacion.ufit.get(billete)) + "\n");
-//        	System.out.println("CANTIDAD_A_" + billete + ": "+    ((this. informacion.atm.get(billete)  == null)?0:this.informacion.atm.get(billete)) + "\n");
-//        }
-        
-        
-
-        
 
         this.enviada.atm.clear();
         this.enviada.fit.clear();

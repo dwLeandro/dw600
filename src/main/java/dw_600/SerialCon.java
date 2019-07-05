@@ -37,9 +37,7 @@ public class SerialCon {
                 
                 this.inStream = serialPort.getInputStream();
                 this.outStream  = serialPort.getOutputStream();
-                
-                //(new Thread(new Ducit600.SerialReader(in))).start();
-                //(new Thread(new Ducit600.SerialWriter(out))).start();
+
                 return true;
 
             }

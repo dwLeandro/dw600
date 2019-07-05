@@ -69,14 +69,6 @@ public class Receptor implements Runnable{
      try{   
     BufferedWriter writer = new BufferedWriter(new FileWriter("log.txt", true));
 
-//    byte[] a = paquete.data.clone();
-//    int[] unsigned = new int[a.length];
-//    for (int i = 0; i < a.length; i++) {
-//        unsigned[i] = Byte.toUnsignedInt(a[i]);
-//    }
-//    
-//    String dat = String.format("%x", unsigned);
-//    System.out.println(dat);
     
     String datos = String.format("%x", new BigInteger(1, paquete.data));
     
@@ -94,11 +86,7 @@ public class Receptor implements Runnable{
     		System.out.println("Cambiando patron");
     	}
     }
-    
-//    System.out.println("//////////////////////////////////////////////");
-//    System.out.println(String.format("%x", new BigInteger(1, paquete.raw.getBytes())));
-//    System.out.println("//////////////////////////////////////////////");
-//    System.out.println(String.format("%x", new BigInteger(1, paquete.data)));
+
 
   if(datos.startsWith("2a")) {
 	
@@ -115,30 +103,15 @@ public class Receptor implements Runnable{
 
      }catch(Exception e){}
           
-            //for(Integer i =0 ; i < paquete.raw.length();i++){
-            //    xor= xor ^ paquete.raw.charAt(i);
-            //}
-            //if(xor==paquete.fin.charAt(2)){
-                this.d.offerPaquete(paquete.data);
-            //}else{
-            //    System.out.println("Se produjo un error al intentar leer el BCC");
-            //}
+
+     this.d.offerPaquete(paquete.data);
+
             
         }
 
         return true;
     }
     
-//    private boolean validar(String datos) {
-//    	String tmp = datos.substring(6);
-//    	if(!tmp.startsWith("c1")) {
-//    		System.out.println("datos invalidos: " + datos);
-//    		return true;
-//    	} else {
-//    		return false;
-//    	}
-//	}
-
 	boolean leerInicio(){
         Byte inicio;
         while(true){

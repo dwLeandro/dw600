@@ -26,7 +26,6 @@ public class Actuador {
 	
 	void setPattern(int numero) {
 		
-//		serial.write("100230303127100315", false);   // stop count	
 		s.dontAcceptCount();
 		
 		try {
@@ -79,12 +78,6 @@ public class Actuador {
 		s.setError(true);
 		
 		ultimoModo = numero;
-		
-		
-		
-//		this.serial.write(Protocolo.getReset(),false);
-		
-		
 		
 	}
 
