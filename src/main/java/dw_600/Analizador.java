@@ -82,8 +82,6 @@ public class Analizador implements Runnable{
                 	String sr1 = datos.get("SR1");
                 	String sr2 = datos.get("SR2");
                 	String sr3 = datos.get("SR3");
-                	String tp = datos.get("TYPE");
-                	System.out.println(datos.keySet());
                 	
                 	if(validar(sr1, sr2, sr3)) {
                 		break;
@@ -115,26 +113,17 @@ public class Analizador implements Runnable{
                         }
 
                     }
-                    
-                    System.out.println(informacion.atm);
-                    System.out.println(informacion.ufit);
-                    System.out.println(informacion.fit);
+
                 }
                     
             break;
         
         }
         
-        
-        
-        //this.informacion.id_1000_A = datos.get("")
+
     }
 	private boolean validar(String sr1, String sr2, String sr3) {
-		
-		System.out.println(sr1);
-		System.out.println(sr2);
-		System.out.println(sr3);
-		
+
 		if(sr1 != "1000000") {
 			return false;
 		}

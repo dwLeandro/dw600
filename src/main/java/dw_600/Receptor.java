@@ -91,7 +91,7 @@ public class Receptor implements Runnable{
     	if(!datos.startsWith("2d46")) {
     		s.setError(false);
     	} else {
-    		System.out.println("Hubo error en el cambio de patron");
+    		System.out.println("Cambiando patron");
     	}
     }
     
@@ -129,15 +129,15 @@ public class Receptor implements Runnable{
         return true;
     }
     
-    private boolean validar(String datos) {
-    	String tmp = datos.substring(6);
-    	if(!tmp.startsWith("c1")) {
-    		System.out.println("datos invalidos: " + datos);
-    		return true;
-    	} else {
-    		return false;
-    	}
-	}
+//    private boolean validar(String datos) {
+//    	String tmp = datos.substring(6);
+//    	if(!tmp.startsWith("c1")) {
+//    		System.out.println("datos invalidos: " + datos);
+//    		return true;
+//    	} else {
+//    		return false;
+//    	}
+//	}
 
 	boolean leerInicio(){
         Byte inicio;

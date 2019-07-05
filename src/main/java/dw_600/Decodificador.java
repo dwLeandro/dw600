@@ -293,72 +293,72 @@ public class Decodificador  implements Runnable{
         return "";
     }
     
-    String ConvertByteAString(byte bb){
-        
-        String s = "";
-        int b = Byte.toUnsignedInt(bb);
-        
-        if(b < 0){
-            s +="1";
-            b=b+256;
-            b=b-128;
-        }else{
-            s +="0";        
-        }
-
-        
-
-        if(b >= 64){
-            s +="1";
-            b=b-64;
-        }else{
-            s +="0";        
-        }
-
-        if(b >= 32){
-            s +="1";
-            b=b-32;
-        }else{
-            s +="0";        
-        }
-       
-         if(b >= 16){
-            s +="1";
-            b=b-16;
-        }else{
-            s +="0";        
-        }       
-
-        if(b >= 8){
-            s +="1";
-            b=b-8;
-        }else{
-            s +="0";        
-        }            
-           if(b >= 4){
-            s +="1";
-            b=b-4;
-        }else{
-            s +="0";        
-        }
-
-        if(b >= 2){
-            s +="1";
-            b=b-2;
-        }else{
-            s +="0";        
-        }
-       
-         if(b >= 1){
-            s +="1";
-            b=b-1;
-        }else{
-            s +="0";        
-        }       
-           
-         return s;
-
-    }
+//    String ConvertByteAString(byte bb){
+//        
+//        String s = "";
+//        int b = Byte.toUnsignedInt(bb);
+//        
+//        if(b < 0){
+//            s +="1";
+//            b=b+256;
+//            b=b-128;
+//        }else{
+//            s +="0";        
+//        }
+//
+//        
+//
+//        if(b >= 64){
+//            s +="1";
+//            b=b-64;
+//        }else{
+//            s +="0";        
+//        }
+//
+//        if(b >= 32){
+//            s +="1";
+//            b=b-32;
+//        }else{
+//            s +="0";        
+//        }
+//       
+//         if(b >= 16){
+//            s +="1";
+//            b=b-16;
+//        }else{
+//            s +="0";        
+//        }       
+//
+//        if(b >= 8){
+//            s +="1";
+//            b=b-8;
+//        }else{
+//            s +="0";        
+//        }            
+//           if(b >= 4){
+//            s +="1";
+//            b=b-4;
+//        }else{
+//            s +="0";        
+//        }
+//
+//        if(b >= 2){
+//            s +="1";
+//            b=b-2;
+//        }else{
+//            s +="0";        
+//        }
+//       
+//         if(b >= 1){
+//            s +="1";
+//            b=b-1;
+//        }else{
+//            s +="0";        
+//        }       
+//           
+//         return s;
+//
+//    }
  
     String ConvertByteAString2(byte bb){
         
@@ -372,16 +372,6 @@ public class Decodificador  implements Runnable{
         return padded;
 
     } 
-    
-    int ConvertByteAString3(byte bb){
-        
-        int b = bb & 0xFF;
-
-        
-        return b;
-
-    } 
-    
 
     
     String reemplazarReferencia(Map<String,String> datos,String referencia){
