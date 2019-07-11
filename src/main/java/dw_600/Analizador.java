@@ -124,14 +124,16 @@ public class Analizador implements Runnable{
     }
 	private boolean validar(String sr1, String sr2, String sr3) {
 
-		if(sr1 != "1000000") {
-			return false;
+		if(!sr1.equalsIgnoreCase("01000000")) {
+			System.out.println(sr1);
+			System.out.println("wrong sr1");
+			return true;
 		}
 		
-		if(sr3 != "11000001") {
-			return false;
+		if(!sr3.equalsIgnoreCase("11000001")) {
+			return true;
 		}
 		
-		return true;
+		return false;
 	}
 }
