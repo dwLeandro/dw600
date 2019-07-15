@@ -250,4 +250,9 @@ void connectAfterChange() {
 
 //	this.auto();
 }
+
+public void sendReset() {
+	Protocolo.sendReset(serial);
+	
+}
 }

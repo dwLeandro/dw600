@@ -122,7 +122,7 @@ public class Decodificador  implements Runnable{
                 ){
         datos.put("RECORD_TYPE", Integer.toHexString((int) cadena[0]));
         procesar_patron(datos,c, decodeMap.get(Integer.toHexString((int) cadena[0])));
-        System.out.println(String.format("%x", new BigInteger(1, cadena)));
+//        System.out.println(String.format("%x", new BigInteger(1, cadena)));
         
         this.respuestas.offer(datos);
 
@@ -221,9 +221,6 @@ public class Decodificador  implements Runnable{
                 
                   p = Integer.parseUnsignedInt(str, 2);
                   
-                  if(p > 2000) {
-                  	System.out.println("error int" + str);
-                  }
                   
                 } else {
                 	ByteBuffer buffer = ByteBuffer.wrap(bytes);
@@ -234,12 +231,6 @@ public class Decodificador  implements Runnable{
                     }
                 }
                 
-         
-                
-                
-                if(Integer.parseUnsignedInt(p.toString()) > 2000) {
-                	System.out.println("error str");
-                }
                 return p.toString();
                 
                 

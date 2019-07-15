@@ -10,6 +10,7 @@ import java.io.FileDescriptor;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.lang.reflect.Array;
 import java.math.BigInteger;
 
 import gnu.io.CommPortIdentifier;
@@ -29,6 +30,10 @@ public class Receptor implements Runnable{
     InputStream in;
     Ducit600 d;
     ModeSafeGuard s = ModeSafeGuard.instance();
+    byte[] cadenalargo;
+    byte[] fin;
+    int errorCount = 0;
+
 
     public Receptor ( InputStream in ,Ducit600 d)
     {
@@ -56,22 +61,28 @@ public class Receptor implements Runnable{
     }
     
     boolean leerCadenaPaquete(){
-        int xor=0;
+        byte[] cadena;
+        byte crc;
         Paquete paquete = new Paquete();
         if (this.leerInicio()){
+        	cadenalargo = new byte[150];
+        	fin = new byte[5];
             paquete.largo = this.leerLargo();
             paquete.raw = paquete.largo;
             paquete.data = this.leerData(Integer.parseInt(paquete.largo));
             paquete.raw += new String(paquete.data);
             paquete.fin = this.leerFin();
             paquete.raw += paquete.fin.substring(1, 2);
+            cadena = this.armarTrama(paquete);
+            crc = this.checkSum(cadena);
+            System.out.println(String.format("%x", crc));
             
      try{   
     BufferedWriter writer = new BufferedWriter(new FileWriter("log.txt", true));
 
     
     String datos = String.format("%x", new BigInteger(1, paquete.data));
-    
+    System.out.println(String.format("%x", new BigInteger(1, cadena)) + String.format("%x", fin[2]));
     writer.append("==========================================================");
     writer.append(datos);
     writer.close();
@@ -86,6 +97,12 @@ public class Receptor implements Runnable{
     		System.out.println("Cambiando patron");
     	}
     }
+    
+    if(crc != fin[2]) {
+    	System.out.println("bcc invalido");
+    	return true;
+    }
+    
 
 
   if(datos.startsWith("2a")) {
@@ -112,6 +129,26 @@ public class Receptor implements Runnable{
         return true;
     }
     
+	private byte[] armarTrama(Paquete paquete) {
+
+	    // create a destination array that is the size of the arrays
+	    
+	    byte[] etx = new byte[1];
+	    etx[0] = this.fin[1];
+	    
+	    byte[] trama = new byte[this.cadenalargo.length + etx.length + paquete.data.length];
+	    
+
+	    System.arraycopy(this.cadenalargo, 0, trama, 0, this.cadenalargo.length);
+
+	    System.arraycopy(paquete.data, 0, trama, this.cadenalargo.length, paquete.data.length);
+	    
+	    System.arraycopy(etx, 0, trama, this.cadenalargo.length + paquete.data.length, etx.length);
+	    
+	    return trama;
+		
+	}
+
 	boolean leerInicio(){
         Byte inicio;
         while(true){
@@ -147,6 +184,7 @@ public class Receptor implements Runnable{
                 return "";
             }
         }
+        cadenalargo = largo;
         str = new String(largo);
         return str;
     }
@@ -175,7 +213,8 @@ public class Receptor implements Runnable{
             fin[x] = this.readByte();
 
         }
-        str = new String(fin);
+        this.fin = fin;
+        str = String.format("%x", new BigInteger(1, fin));
         
         return str;    
     }
@@ -211,6 +250,14 @@ public class Receptor implements Runnable{
 
        return readBuffer[0];    
     }
-
+    
+    public static final byte checkSum(byte[] bytes) {
+    	   byte sum = 0;
+    	   for (byte b : bytes) {
+    	      sum ^= b;
+    	   }
+    	   return sum;
+    	}
+    
     
 }
