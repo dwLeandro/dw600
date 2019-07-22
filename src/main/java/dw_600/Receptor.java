@@ -18,6 +18,7 @@ import static java.lang.System.exit;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
+import java.util.Map;
 
 import com.sun.javafx.sg.prism.NGShape.Mode;
 
@@ -32,13 +33,16 @@ public class Receptor implements Runnable{
     ModeSafeGuard s = ModeSafeGuard.instance();
     byte[] cadenalargo;
     byte[] fin;
-    int errorCount = 0;
+    int count = 0;
+	private Decodificador deco;
+	private String d1;
 
 
-    public Receptor ( InputStream in ,Ducit600 d)
+    public Receptor ( InputStream in ,Ducit600 d, Decodificador deco)
     {
         this.in = in;
         this.d = d;
+        this.deco = deco;
     }
     
     @Override
@@ -100,20 +104,25 @@ public class Receptor implements Runnable{
     
     if(crc != fin[2]) {
     	System.out.println("bcc invalido");
+    	count++;
+    	if(count > 6 && this.noRechazado(paquete.data)) {
+    		//do something
+    		count = 0;
+    	}
     	return true;
     }
     
+    count = 0;
 
-
-  if(datos.startsWith("2a")) {
-	
-	  if(!ModeSafeGuard.instance().getCount() /* || this.validar(datos)*/) {
-		return true;
-		}
-	 
-	  
-		
-	}    
+//  if(datos.startsWith("2a")) {
+//	
+//	  if(!ModeSafeGuard.instance().getCount() /* || this.validar(datos)*/) {
+//		return true;
+//		}
+//	 
+//	  
+//		
+//	}    
 
     
      
@@ -129,6 +138,8 @@ public class Receptor implements Runnable{
         return true;
     }
     
+
+
 	private byte[] armarTrama(Paquete paquete) {
 
 	    // create a destination array that is the size of the arrays
@@ -259,5 +270,11 @@ public class Receptor implements Runnable{
     	   return sum;
     	}
     
-    
+	private boolean noRechazado(byte[] data) {
+		Map<String, String> decodificacion = deco.analizar(data);
+		System.out.println(decodificacion.get("D1"));
+
+		return false;
+	}
+
 }

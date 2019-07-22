@@ -117,6 +117,33 @@ public class SocketCon implements Runnable{
 			  LOGGER.log(Level.INFO, "Servidor desconectado");
 		  }
 
+		}).on("reset", new Emitter.Listener() {
+
+			  @Override
+			  public void call(Object... args) {
+				 
+				  JSONObject obj = (JSONObject) args[0];
+				  int puestoRecibido = -1;
+				  
+				  try {
+					puestoRecibido = obj.getInt("puesto");
+				} catch (JSONException e) {
+					e.printStackTrace();
+				}
+				
+				if(comprobarPuesto(puestoRecibido)) {
+					actuador.sendCount();
+				}
+				  
+			  }
+
+		}).on(Socket.EVENT_DISCONNECT, new Emitter.Listener() {
+
+		  @Override
+		  public void call(Object... args) {
+			  LOGGER.log(Level.INFO, "Servidor desconectado");
+		  }
+
 		});
 		socket.connect();
 		

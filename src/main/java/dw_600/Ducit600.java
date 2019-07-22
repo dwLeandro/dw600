@@ -103,17 +103,6 @@ public class Ducit600 {
         this.informacion = new Informacion();
 
         this.serial = new SerialCon();
-        this.actuador = new Actuador(serial, this);
-        new Thread(new SocketCon(actuador, params.getPuesto(), params.getPath())).start();
-        
-        this.transmisor = new Transmisor(this.serial);
-        
-        this.decodificador = new Decodificador(respuestas, paquetes,this.params.getPatern());
-
-        this.analizador = new Analizador(this.respuestas, this.informacion);
-        
-        this.informador = new Informador(informacion, params);
-        
         
        
         
@@ -130,7 +119,21 @@ public class Ducit600 {
     public void auto(){
 
         if(this.conectar()){
+        	
+        	this.actuador = new Actuador(serial, this);
+            new Thread(new SocketCon(actuador, params.getPuesto(), params.getPath())).start();
+            
+            this.transmisor = new Transmisor(this.serial);
+            
+            this.decodificador = new Decodificador(respuestas, paquetes,this.params.getPatern());
 
+            this.analizador = new Analizador(this.respuestas, this.informacion);
+            
+            this.informador = new Informador(informacion, params);
+            
+            this.receptor = new Receptor(this.serial.inStream, this, decodificador);
+
+            
           System.out.println("Conectado!");
                   
           this.init();
@@ -158,16 +161,16 @@ public class Ducit600 {
     	}
     	
 
-      	ModeSafeGuard.instance().acceptCount();
       	ModeSafeGuard.instance().habilitarCambioDeModo();
 
     }
 
     
     private void init() {
-        new Thread( new Receptor(this.serial.inStream, this)).start();
-        new Thread(new Decodificador(this.respuestas,this.paquetes,this.params.getPatern())).start();
-        new Thread(new Analizador(this.respuestas, informacion)).start();
+        
+        new Thread(decodificador).start();
+        new Thread(receptor).start();
+        new Thread(analizador).start();
 
 
         System.out.println("Obteniendo coonfiguracion...");

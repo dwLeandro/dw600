@@ -110,6 +110,13 @@ public class Decodificador  implements Runnable{
     }
     
     void decodificar(byte[] cadena){
+        Map<String,String> datos = this.analizar(cadena);
+        if(datos != null) {
+        	this.respuestas.offer(datos);
+        }	
+    }
+    
+    Map<String, String> analizar(byte[] cadena){
         Map<String,String> datos = new HashMap<String, String>();
         Cadena c = new Cadena();
 
@@ -124,10 +131,12 @@ public class Decodificador  implements Runnable{
         procesar_patron(datos,c, decodeMap.get(Integer.toHexString((int) cadena[0])));
 //        System.out.println(String.format("%x", new BigInteger(1, cadena)));
         
-        this.respuestas.offer(datos);
+        	return datos;
 
         }
-    }
+		
+        return null;
+	}
     
     void procesar_patron(Map<String,String> datos,Cadena cadena,String pat){
         

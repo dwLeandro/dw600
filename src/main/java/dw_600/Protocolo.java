@@ -11,7 +11,7 @@ public class Protocolo {
     
     
     static String getReset(){
-        return "100230303121100310";//"10 02 30 30 31 21 10 03 13";
+        return "100230303121100313";//"10 02 30 30 31 21 10 03 13";
     }
     									
     static String getStartTransaction(){
@@ -37,6 +37,12 @@ public class Protocolo {
     public static String getStackerConfig() {
     	return "10023030312c10031e";  //1e o 0e?
     }  
+    
+    
+    public static String getStartCount() {
+    	return "10023030312810031a";  
+    }  
+    
     
     static boolean sendReset( SerialCon serial){
         
