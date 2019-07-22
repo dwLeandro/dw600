@@ -1,30 +1,12 @@
 
 package dw_600;
-import gnu.io.*;
-import gnu.io.CommPort;
-import gnu.io.CommPortIdentifier;
-import gnu.io.SerialPort;
-import java.util.Enumeration;
 
-import java.io.FileDescriptor;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.OutputStream;
-import java.lang.reflect.Array;
 import java.math.BigInteger;
-
-import gnu.io.CommPortIdentifier;
 import static java.lang.System.exit;
-
-import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.Map;
 
-import com.sun.javafx.sg.prism.NGShape.Mode;
-
-import java.io.BufferedWriter;
-import java.io.FileWriter;
-import java.io.IOException;
 
 public class Receptor implements Runnable{
 
@@ -35,7 +17,7 @@ public class Receptor implements Runnable{
     byte[] fin;
     int count = 0;
 	private Decodificador deco;
-	private String d1;
+
 
 
     public Receptor ( InputStream in ,Ducit600 d, Decodificador deco)
@@ -78,18 +60,13 @@ public class Receptor implements Runnable{
             paquete.fin = this.leerFin();
             paquete.raw += paquete.fin.substring(1, 2);
             cadena = this.armarTrama(paquete);
-            crc = this.checkSum(cadena);
+            crc = checkSum(cadena);
             System.out.println(String.format("%x", crc));
             
      try{   
-    BufferedWriter writer = new BufferedWriter(new FileWriter("log.txt", true));
 
-    
     String datos = String.format("%x", new BigInteger(1, paquete.data));
     System.out.println(String.format("%x", new BigInteger(1, cadena)) + String.format("%x", fin[2]));
-    writer.append("==========================================================");
-    writer.append(datos);
-    writer.close();
     
  
     
@@ -101,6 +78,16 @@ public class Receptor implements Runnable{
     		System.out.println("Cambiando patron");
     	}
     }
+    
+    if(datos.startsWith("2a")) {
+
+  	  if(!ModeSafeGuard.instance().getCount() /* || this.validar(datos)*/) {
+  		return true;
+  		}
+
+
+
+  	}    
     
     if(crc != fin[2]) {
     	System.out.println("bcc invalido");

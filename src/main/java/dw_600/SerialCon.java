@@ -4,8 +4,6 @@ import gnu.io.*;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.sql.Connection;
-import java.util.*;
 
 import static java.lang.System.exit;
 

@@ -2,10 +2,7 @@
 package dw_600;
 
 import java.sql.*;
-import java.util.Map;
 import java.util.Properties;
-
-import org.postgresql.Driver.*;
 
 import static java.lang.System.exit;
 public class JavaPostgreSQL {
@@ -180,6 +177,7 @@ public class JavaPostgreSQL {
     {	
     	System.out.println("cambio estado");
         ResultSet res;
+        
         try {
           Statement statement = con.createStatement();
           res = statement.executeQuery("select " + procedure + "(" + puesto + ");");

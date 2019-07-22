@@ -7,7 +7,6 @@ import static java.lang.System.exit;
 public class Parametros {
 
     private int puesto = 26;
-    private static String version = "Versión 1.0 dwGlory";
     private boolean modoDebug = false;
     private String port = "5432";
     private String host = "172.21.16.32";

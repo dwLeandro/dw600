@@ -7,20 +7,19 @@ public class ModeSafeGuard {
 	
 	public static ModeSafeGuard instance() {
 		if(INSTANCE == null) {
-			INSTANCE = new ModeSafeGuard(new Semaphore(1, true), new Semaphore(1, true));
+			INSTANCE = new ModeSafeGuard(new Semaphore(1, true));
 		}
 		
 		return INSTANCE;
 	}
 	
 	private final Semaphore semaforo;
-	private final Semaphore semaforoRecept;
 	private boolean error = true;
+	private boolean count = true;
 	private boolean cambiarEstado = false;
 	
-	private ModeSafeGuard(Semaphore sem, Semaphore semRecept) {
+	private ModeSafeGuard(Semaphore sem) {
 		this.semaforo = sem;
-		this.semaforoRecept = semRecept;
 	}
 	
 	public void bloquearCambioDeModo() {
@@ -50,5 +49,19 @@ public class ModeSafeGuard {
 	
 	public boolean getCambiarEstado() {
 		return this.cambiarEstado;
+	}
+	
+	public void dontAcceptCount() {
+		count = false;
+		cambiarEstado  = true;
+
+	}
+
+	public void acceptCount() {
+		count = true;
+	}
+
+	public boolean getCount() {
+		return count;
 	}
 }

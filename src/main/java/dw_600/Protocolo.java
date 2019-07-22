@@ -2,10 +2,7 @@
 package dw_600;
 
 import static java.lang.System.exit;
-import java.util.Arrays;
-import java.io.BufferedWriter;
-import java.io.FileWriter;
-import java.io.IOException;
+
 
 public class Protocolo {
     
@@ -94,7 +91,6 @@ public class Protocolo {
         String str;
 
         byte[] largo = new byte[3];
-        //largo[3] = 0;
         
         for(x=0;x<3;x++){
             largo[x] = conn.readByte();
@@ -113,9 +109,6 @@ public class Protocolo {
          
         for(x=0;x<largo;x++){
             data[x] = conn.readByte();
-            if(false){
-                return "";
-            }
         }
         str = new String(data);
         return str;
@@ -123,19 +116,13 @@ public class Protocolo {
     
     static void leerFin(SerialCon conn){
         int x;
-        String str;
-
         byte[] largo = new byte[3];
-        //largo[3] = 0;
         
         for(x=0;x<3;x++){
             largo[x] = conn.readByte();
-           // if(largo[x]<48 || largo[x] > 57){
-           //     return 0;
-            //}
+
         }
-        //str = new String(largo);
-        //return Integer.parseInt(str);    
+ 
     }
 
 }

@@ -16,15 +16,15 @@ public class Transmisor implements Runnable{
  
         while(true){
         
-
-        	this.iterar();
-
-        	try{
-                Thread.sleep(2400);
-            }catch(Exception e){
-                
-            }
+        	if(s.getCount()) {
+        		this.iterar();
+        	}
         	
+        	try{
+            	Thread.sleep(2400);
+         	}catch(Exception e){
+        	
+         	}
         }
     }
 

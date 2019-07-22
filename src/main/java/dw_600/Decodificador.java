@@ -4,12 +4,7 @@ package dw_600;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.math.BigInteger;
 import java.nio.ByteBuffer;
-import java.sql.Connection;
 import java.util.*;
 
 import javax.script.ScriptEngineManager;
@@ -22,8 +17,8 @@ import javax.script.ScriptException;
 public class Decodificador  implements Runnable{
     
     Map<String, String> decodeMap;
-    LinkedList respuestas;
-    LinkedList paquetes;
+    LinkedList<Map<String, String>> respuestas;
+    LinkedList<?> paquetes;
     
     @Override
     public void run (){
@@ -50,7 +45,7 @@ public class Decodificador  implements Runnable{
 
     }
     
-    public Decodificador (LinkedList respuestas,LinkedList paquetes,String patern){
+    public Decodificador (LinkedList<Map<String, String>> respuestas,LinkedList<?> paquetes,String patern){
         this.respuestas = respuestas;
         this.paquetes = paquetes;
         this.decodeMap = new HashMap<>();
@@ -202,7 +197,7 @@ public class Decodificador  implements Runnable{
     
     private String getVal(Cadena c,String l,String t){
         byte[] s;
-        Integer r=0,p=1;
+        Integer p=1;
         byte[] bytes;
         String str;
         switch( t){

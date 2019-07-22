@@ -1,36 +1,15 @@
 
 package dw_600;
 
-import gnu.io.*;
-import gnu.io.CommPort;
-import gnu.io.CommPortIdentifier;
-import gnu.io.SerialPort;
-import java.util.Enumeration;
-
-import java.io.FileDescriptor;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-
-import gnu.io.CommPortIdentifier;
-
-import java.util.ArrayList;
-import java.util.InputMismatchException;
 import java.util.Scanner;
 import java.util.LinkedList;
-
-import static java.lang.System.exit;
-import java.util.HashMap;
 import java.util.Map;
-import jdk.nashorn.internal.codegen.CompilerConstants;
-import javax.script.ScriptEngineManager;
-import javax.script.ScriptEngine;
 import javax.script.ScriptException;
 
 public class Ducit600 {
     
-    LinkedList respuestas;
-    LinkedList paquetes;
+    LinkedList<Map<String, String>> respuestas;
+    LinkedList<Crudo> paquetes;
     SerialCon serial;
     Parametros params;
     Informacion informacion;
@@ -42,7 +21,6 @@ public class Ducit600 {
     Analizador analizador;
     Informador informador;
 	SocketCon socket;
-	private Informador informatorsThread;
 
     
     public synchronized void offerPaquete(byte[] paq){
@@ -96,8 +74,8 @@ public class Ducit600 {
     }
         
     public Ducit600(){
-        this.respuestas = new LinkedList();
-        this.paquetes = new LinkedList();
+        this.respuestas = new LinkedList<Map<String, String>>();
+        this.paquetes = new LinkedList<Crudo>();
         this.params = new Parametros();
         this.params.leerParametros();
         this.informacion = new Informacion();
@@ -160,7 +138,7 @@ public class Ducit600 {
     		e.printStackTrace();
     	}
     	
-
+    	ModeSafeGuard.instance().acceptCount();
       	ModeSafeGuard.instance().habilitarCambioDeModo();
 
     }

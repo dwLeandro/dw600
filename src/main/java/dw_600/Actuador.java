@@ -26,7 +26,8 @@ public class Actuador {
 	
 	void setPattern(int numero) {
 		
-		ModeSafeGuard.instance().setCambiarEstado(true);		
+		s.dontAcceptCount();
+		
 		try {
 			Thread.sleep(500);
 		} catch (InterruptedException e1) {
@@ -112,8 +113,5 @@ public class Actuador {
 		}
 	}
 	
-	public void sendCount(){
-		this.serial.write(Protocolo.getReset(), false);
-	}
 
 }

@@ -1,11 +1,6 @@
 package dw_600;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.sql.Connection;
-import java.util.*;
-import java.util.LinkedList;
 
+import java.sql.Connection;
 
 public class Informador  implements Runnable{
     Informacion informacion;

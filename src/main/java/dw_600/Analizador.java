@@ -7,12 +7,12 @@ import java.util.Map;
 
 public class Analizador implements Runnable{
     
-    LinkedList respuestas;
+    LinkedList<?> respuestas;
     Informacion informacion;
     Map<String,String> ids = new HashMap<>();
 	Map<String, String> no = new HashMap<>();
     
-    public Analizador(LinkedList r,Informacion i){
+    public Analizador(LinkedList<?> r,Informacion i){
         this.respuestas = r;
         this.informacion = i;
     }
@@ -36,8 +36,6 @@ public class Analizador implements Runnable{
         String vl;
         String id;
         String nd;
-        String ovl;
-        Integer ti;
         
         datos = (Map<String,String>) this.respuestas.poll();
         if(datos == null){
