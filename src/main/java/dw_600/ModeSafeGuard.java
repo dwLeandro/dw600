@@ -17,6 +17,7 @@ public class ModeSafeGuard {
 	private boolean error = true;
 	private boolean count = true;
 	private boolean cambiarEstado = false;
+	private boolean stackerLibre;
 	
 	private ModeSafeGuard(Semaphore sem) {
 		this.semaforo = sem;
@@ -64,4 +65,6 @@ public class ModeSafeGuard {
 	public boolean getCount() {
 		return count;
 	}
+
+
 }

@@ -128,7 +128,7 @@ public class Analizador implements Runnable{
 			return true;
 		}
 		
-		if(!sr3.equalsIgnoreCase("11000001")) {
+		if(!(sr3.equalsIgnoreCase("11000001") || sr3.equalsIgnoreCase("11000011"))) {
 			return true;
 		}
 		

@@ -27,14 +27,9 @@ public class Actuador {
 	void setPattern(int numero) {
 		
 		s.dontAcceptCount();
+		this.serial.write(Protocolo.getSense(), false);
 		
-		try {
-			Thread.sleep(500);
-		} catch (InterruptedException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
-		
+
 		cerrarTX();		
 		
 		if(numero != 0) {
@@ -76,7 +71,6 @@ public class Actuador {
 		}
 		
 		s.setError(true);
-		
 		ultimoModo = numero;
 		
 	}

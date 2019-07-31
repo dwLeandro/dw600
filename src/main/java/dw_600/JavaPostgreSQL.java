@@ -56,11 +56,11 @@ public class JavaPostgreSQL {
         return null;
     }
 
-    public void connectDatabase(String host, String port, String database,
+    public Connection connectDatabase(String host, String port, String database,
                                 String user, String password) {
         String url = "";
+        Connection connection = null;
         try {
-            // We register the PostgreSQL driver
             // Registramos el driver de PostgresSQL
             try {
                 Class.forName("org.postgresql.Driver");
@@ -68,7 +68,7 @@ public class JavaPostgreSQL {
                 System.out.println("Error al registrar el driver de PostgreSQL: " + ex);
             }
 
-            Connection connection = null;
+            
             url = "jdbc:postgresql://" + host + ":" + port + "/" + database;
             // Database connect
             // Conectamos con la base de datos
@@ -82,6 +82,8 @@ public class JavaPostgreSQL {
             System.out.println("Usuario: " + user + " password: " + password);
             exit(1);
         }
+        
+        return connection;
     }
     public boolean insertBills(Connection con, int puesto ,String table, Informacion contadorActual){
         Integer suma =  0;

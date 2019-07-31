@@ -15,7 +15,6 @@ public class Receptor implements Runnable{
     ModeSafeGuard s = ModeSafeGuard.instance();
     byte[] cadenalargo;
     byte[] fin;
-    int count = 0;
 	private Decodificador deco;
 
 
@@ -52,21 +51,21 @@ public class Receptor implements Runnable{
         Paquete paquete = new Paquete();
         if (this.leerInicio()){
         	cadenalargo = new byte[150];
-        	fin = new byte[5];
+        	fin = new byte[3];
             paquete.largo = this.leerLargo();
             paquete.raw = paquete.largo;
             paquete.data = this.leerData(Integer.parseInt(paquete.largo));
             paquete.raw += new String(paquete.data);
-            paquete.fin = this.leerFin();
-            paquete.raw += paquete.fin.substring(1, 2);
+            paquete.fin = String.format("%x", new BigInteger(1, this.fin));
+            paquete.raw += String.format("%x", new BigInteger(1, this.fin));
             cadena = this.armarTrama(paquete);
             crc = checkSum(cadena);
-            System.out.println(String.format("%x", crc));
+  //          System.out.println(String.format("%x", crc));
             
      try{   
 
     String datos = String.format("%x", new BigInteger(1, paquete.data));
-    System.out.println(String.format("%x", new BigInteger(1, cadena)) + String.format("%x", fin[2]));
+  //  System.out.println(String.format("%x", new BigInteger(1, cadena)) + String.format("%x", fin[2]));
     
  
     
@@ -84,35 +83,15 @@ public class Receptor implements Runnable{
   	  if(!ModeSafeGuard.instance().getCount() /* || this.validar(datos)*/) {
   		return true;
   		}
-
-
-
-  	}    
+    }  
+     
     
     if(crc != fin[2]) {
     	System.out.println("bcc invalido");
-    	count++;
-    	if(count > 6 && this.noRechazado(paquete.data)) {
-    		//do something
-    		count = 0;
-    	}
     	return true;
     }
     
-    count = 0;
 
-//  if(datos.startsWith("2a")) {
-//	
-//	  if(!ModeSafeGuard.instance().getCount() /* || this.validar(datos)*/) {
-//		return true;
-//		}
-//	 
-//	  
-//		
-//	}    
-
-    
-     
 
      }catch(Exception e){}
           
@@ -122,10 +101,19 @@ public class Receptor implements Runnable{
             
         }
 
+        
+
         return true;
     }
     
 
+
+	private boolean validarSense(String data) {
+		long value = Long.parseLong(data, 16);
+		System.out.println(value);
+		return value > 0;   //si es mayor hay billetes presentes
+		
+	}
 
 	private byte[] armarTrama(Paquete paquete) {
 
@@ -188,34 +176,60 @@ public class Receptor implements Runnable{
     }
 
     byte[] leerData(int largo){
-         int x;
-         byte[] data = new byte[largo];
-       // String str;
-         
-        for(x=0;x<largo;x++){
-            data[x] = this.readByte();
-
-        }
-       // str = new String(data);
-        return data;
-    }
-
-    String leerFin(){
-        int x;
-        String str;
-
-        byte[] fin = new byte[3];
- 
+    	int x = 0;
+        byte[] fin = new byte[300];
+        boolean isEnd = false;
         
-        for(x=0;x<3;x++){
+		while(!isEnd){
             fin[x] = this.readByte();
-
+            
+            if(fin[x] == 0x10) {
+            	x++;
+            	fin[x] = this.readByte();
+            	
+            	if(fin[x] == 0x03) {
+            		x++;
+            		fin[x] = this.readByte();
+            		isEnd = true;
+            	}
+            	
+            }
+            
+            x++;
+         
         }
-        this.fin = fin;
-        str = String.format("%x", new BigInteger(1, fin));
-        
-        return str;    
+		byte[] data = new byte[x-3];
+		
+	
+		
+		
+		System.arraycopy(fin, x-3, this.fin, 0, 3);
+	    System.arraycopy(fin, 0, data, 0, x-3);
+	    
+	    if(largo != data.length) {
+	    //	System.out.println("Los largos no coinciden");
+	    	data = this.fixData(data, data.length - largo);
+		}
+	    
+	    return data;
     }
+    
+    private byte[] fixData(byte[] data, int off) {
+    	int x = 0;
+    	int largo = data.length;
+    	byte[] temp = data;
+
+    	for(int i = 0; i < largo && x < off; i++) {
+    		if((temp[i] == 0x10) && (temp[i+1] ==  0x10)) {
+    			temp = removerByte(temp, i);
+    			x++;
+    		}
+    		
+    	}
+    	
+    	return temp;
+	}
+    
     
     byte readByte(){
             try{
@@ -263,5 +277,32 @@ public class Receptor implements Runnable{
 
 		return false;
 	}
+
+	public static byte[] removerByte(byte[] bytes, int index) { 
+				if (bytes == null || index < 0 || index >= bytes.length) { 
+					return bytes; 
+				} 
+
+		// Create another array of size one less 
+				byte[] temp = new byte[bytes.length - 1]; 
+
+		// Copy the elements except the index 
+		// from original array to the other array 
+				for (int i = 0, k = 0; i < bytes.length; i++) { 
+
+		// if the index is 
+		// the removal element index 
+					if (i == index) { 
+						continue; 
+					} 
+
+		// if the index is not 
+		// the removal element index 
+					temp[k++] = bytes[i]; 
+				} 
+
+		// return the resultant array 
+				return temp; 
+		}
 
 }
