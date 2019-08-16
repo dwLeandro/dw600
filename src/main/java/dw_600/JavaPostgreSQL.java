@@ -3,14 +3,39 @@ package dw_600;
 
 import java.sql.*;
 import java.util.Properties;
+import java.util.logging.FileHandler;
+import java.util.logging.Logger;
+import java.util.logging.SimpleFormatter;
 
 import static java.lang.System.exit;
+
+import java.io.IOException;
 public class JavaPostgreSQL {
     Connection conexion = null;
     String procedure;
+    Logger logger;
     
     JavaPostgreSQL(String sp){
     	procedure = sp;
+    	logger = Logger.getLogger("DbLog");  
+        FileHandler fh;  
+
+        try {  
+
+            // This block configure the logger with handler and formatter  
+            fh = new FileHandler("C:/dw600/Log.log");  
+            logger.addHandler(fh);
+            SimpleFormatter formatter = new SimpleFormatter();  
+            fh.setFormatter(formatter);  
+
+            // the following statement is used to log any messages  
+            logger.info("Inicio programa");  
+
+        } catch (SecurityException e) {  
+            e.printStackTrace();  
+        } catch (IOException e) {  
+            e.printStackTrace();  
+        }  
     }
 
 
@@ -22,9 +47,9 @@ public class JavaPostgreSQL {
         {
             try{
                 con.close();
-                System.out.println("Test de conexion con el servidor PostgreSQL exitoso");
+                logger.info("Test de conexion con el servidor PostgreSQL exitoso");
             }catch (Exception e){
-                System.out.println("No se pudo cerrar la conexión con la base");
+            	logger.info("No se pudo cerrar la conexión con la base");
             }
         }
     }
@@ -47,7 +72,7 @@ public class JavaPostgreSQL {
             return conn;
         } catch (Exception e) {
             this.conexion = null;
-            System.out.println("Error al establecer conexión con el servidor de base de datos  " + e.getMessage());
+            logger.info("Error al establecer conexión con el servidor de base de datos  " + e.getMessage());
             e.printStackTrace();
             System.out.println("Saliendo del programa");
             exit(1);
@@ -65,7 +90,7 @@ public class JavaPostgreSQL {
             try {
                 Class.forName("org.postgresql.Driver");
             } catch (ClassNotFoundException ex) {
-                System.out.println("Error al registrar el driver de PostgreSQL: " + ex);
+            	logger.info("Error al registrar el driver de PostgreSQL: " + ex);
             }
 
             
@@ -78,7 +103,7 @@ public class JavaPostgreSQL {
             boolean valid = connection.isValid(5000);
             System.out.println(valid ? "TEST OK" : "TEST FAIL");
         } catch (java.sql.SQLException sqle) {
-            System.out.println("Error al conectar con la base de datos de PostgreSQL (" + url + "): " + sqle);
+        	logger.info("Error al conectar con la base de datos de PostgreSQL (" + url + "): " + sqle);
             System.out.println("Usuario: " + user + " password: " + password);
             exit(1);
         }
@@ -90,9 +115,9 @@ public class JavaPostgreSQL {
         String conteo = "";
         
         for (int i = 0; i < contadorActual.atm.size(); i++) {
-        	 suma += Integer.parseInt((contadorActual.fit.get(contadorActual.billetes[i]) ==null)?"0":contadorActual.fit.get(contadorActual.billetes[i])) ;
-             suma += Integer.parseInt((contadorActual.ufit.get(contadorActual.billetes[i]) ==null)?"0":contadorActual.ufit.get(contadorActual.billetes[i])) ;
-             suma += Integer.parseInt((contadorActual.atm.get(contadorActual.billetes[i]) ==null)?"0":contadorActual.atm.get(contadorActual.billetes[i])) ;
+        	 suma += Integer.parseInt((contadorActual.fit.get(Denominaciones.instance().getBilletes()[i]) ==null)?"0":contadorActual.fit.get(Denominaciones.instance().getBilletes()[i])) ;
+             suma += Integer.parseInt((contadorActual.ufit.get(Denominaciones.instance().getBilletes()[i]) ==null)?"0":contadorActual.ufit.get(Denominaciones.instance().getBilletes()[i])) ;
+             suma += Integer.parseInt((contadorActual.atm.get(Denominaciones.instance().getBilletes()[i]) ==null)?"0":contadorActual.atm.get(Denominaciones.instance().getBilletes()[i])) ;
         }
         
                     if(suma < 1){
@@ -104,9 +129,9 @@ public class JavaPostgreSQL {
         
         for(int i = 0; i < contadorActual.atm.size(); i++) {
         	
-        	conteo += (contadorActual.fit.get(contadorActual.billetes[i]) ==null)?"0":contadorActual.fit.get(contadorActual.billetes[i]) + ",";
-        	conteo += (contadorActual.ufit.get(contadorActual.billetes[i]) ==null)?"0":contadorActual.ufit.get(contadorActual.billetes[i]) + ",";
-        	conteo += (contadorActual.atm.get(contadorActual.billetes[i]) ==null)?"0":contadorActual.atm.get(contadorActual.billetes[i]) + ",";
+        	conteo += (contadorActual.fit.get(Denominaciones.instance().getBilletes()[i]) ==null)?"0":contadorActual.fit.get(Denominaciones.instance().getBilletes()[i]) + ",";
+        	conteo += (contadorActual.ufit.get(Denominaciones.instance().getBilletes()[i]) ==null)?"0":contadorActual.ufit.get(Denominaciones.instance().getBilletes()[i]) + ",";
+        	conteo += (contadorActual.atm.get(Denominaciones.instance().getBilletes()[i]) ==null)?"0":contadorActual.atm.get(Denominaciones.instance().getBilletes()[i]) + ",";
         }
         
         System.out.println(conteo);
@@ -166,7 +191,8 @@ public class JavaPostgreSQL {
             return true;
         }catch (Exception e){
         	
-            System.out.println("Error al insertar el conteo en el servidor de BBDD: "+ e.getMessage());
+        	
+        	logger.info("Error al insertar el conteo en el servidor de BBDD: "+ e.getMessage());
         }
 
         return false;
@@ -185,8 +211,10 @@ public class JavaPostgreSQL {
           res = statement.executeQuery("select " + procedure + "(" + puesto + ");");
          }
        catch (SQLException ex) {
-            System.err.println( ex.getMessage() );
+    	   logger.info( ex.getMessage());
        }
+        
+        res = null;
     }
     
 }
