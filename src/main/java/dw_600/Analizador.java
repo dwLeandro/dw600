@@ -118,7 +118,7 @@ public class Analizador implements Runnable{
         
         }
         
-
+        datos = null;
     }
 	private boolean validar(String sr1, String sr2, String sr3) {
 

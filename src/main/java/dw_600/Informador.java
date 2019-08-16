@@ -13,7 +13,7 @@ public class Informador  implements Runnable{
 
         this.informacion = i;
         this.enviada = new Informacion();
-        this.billetes = informacion.billetes;
+        this.billetes = Denominaciones.instance().getBilletes();
         
         this.params = p;
         
@@ -37,7 +37,7 @@ public class Informador  implements Runnable{
             	 ModeSafeGuard.instance().setCambiarEstado(false);
              }
             try{
-                Thread.sleep(500);
+                Thread.sleep(400);
             }catch(Exception e){
                 
             }

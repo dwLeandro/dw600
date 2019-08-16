@@ -42,7 +42,8 @@ public class Decodificador  implements Runnable{
 
             this.decodificar(paquete.cadena);
         }
-
+        
+        paquete = null;
     }
     
     public Decodificador (LinkedList<Map<String, String>> respuestas,LinkedList<?> paquetes,String patern){
