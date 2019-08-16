@@ -11,10 +11,12 @@ public class Analizador implements Runnable{
     Informacion informacion;
     Map<String,String> ids = new HashMap<>();
 	Map<String, String> no = new HashMap<>();
+	private Informador informador;
     
-    public Analizador(LinkedList<?> r,Informacion i){
+    public Analizador(LinkedList<?> r,Informacion i, Informador informador){
         this.respuestas = r;
         this.informacion = i;
+        this.informador = informador;
     }
     @Override
     public void run (){
@@ -111,7 +113,7 @@ public class Analizador implements Runnable{
                         }
 
                     }
-
+                informador.informar();    
                 }
                     
             break;

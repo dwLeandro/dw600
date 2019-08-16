@@ -101,12 +101,12 @@ public class Ducit600 {
             this.transmisor = new Transmisor(this.serial);
             
             this.decodificador = new Decodificador(respuestas, paquetes,this.params.getPatern());
-
-            this.analizador = new Analizador(this.respuestas, this.informacion);
             
             this.informador = new Informador(informacion, params);
             
-            this.receptor = new Receptor(this.serial.inStream, this, decodificador);
+            this.analizador = new Analizador(this.respuestas, this.informacion, this.informador);
+            
+            this.receptor = new Receptor(this.serial.inStream, this);
 
             
           System.out.println("Conectado!");
@@ -171,7 +171,6 @@ public class Ducit600 {
 		}
 
            new Thread(new Transmisor(this.serial)).start();
-           new Thread(new Informador(informacion, params)).start();
 
       }
        

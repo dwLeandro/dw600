@@ -2,7 +2,7 @@ package dw_600;
 
 import java.sql.Connection;
 
-public class Informador  implements Runnable{
+public class Informador{
     Informacion informacion;
     Informacion enviada;
     Parametros params;
@@ -27,21 +27,15 @@ public class Informador  implements Runnable{
         }
         
         this.db = new JavaPostgreSQL(sp);
-    }    
-    @Override
-    public void run (){
-         while(true){
-             this.informar();
+    }
+    
+    
+    public void informar (){
+             this.grabar();
              if(ModeSafeGuard.instance().getCambiarEstado()) {
             	 this.cambiarEstado();
             	 ModeSafeGuard.instance().setCambiarEstado(false);
-             }
-            try{
-                Thread.sleep(400);
-            }catch(Exception e){
-                
-            }
-        }         
+             }    
     }
 
     private void cambiarEstado() {
@@ -56,7 +50,7 @@ public class Informador  implements Runnable{
         }
 		
 	}
-	public void informar(){
+	public void grabar(){
         
         if(this.enviada.atm.equals(this.informacion.atm)&&
                 this.enviada.fit.equals(this.informacion.fit)&&

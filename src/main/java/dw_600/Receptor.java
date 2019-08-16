@@ -15,15 +15,14 @@ public class Receptor implements Runnable{
     ModeSafeGuard s = ModeSafeGuard.instance();
     byte[] cadenalargo;
     byte[] fin;
-	private Decodificador deco;
 
 
 
-    public Receptor ( InputStream in ,Ducit600 d, Decodificador deco)
+
+    public Receptor ( InputStream in ,Ducit600 d)
     {
         this.in = in;
         this.d = d;
-        this.deco = deco;
     }
     
     @Override
@@ -107,13 +106,6 @@ public class Receptor implements Runnable{
     }
     
 
-
-	private boolean validarSense(String data) {
-		long value = Long.parseLong(data, 16);
-		System.out.println(value);
-		return value > 0;   //si es mayor hay billetes presentes
-		
-	}
 
 	private byte[] armarTrama(Paquete paquete) {
 
@@ -271,12 +263,6 @@ public class Receptor implements Runnable{
     	   return sum;
     	}
     
-	private boolean noRechazado(byte[] data) {
-		Map<String, String> decodificacion = deco.analizar(data);
-		System.out.println(decodificacion.get("D1"));
-
-		return false;
-	}
 
 	public static byte[] removerByte(byte[] bytes, int index) { 
 				if (bytes == null || index < 0 || index >= bytes.length) { 
