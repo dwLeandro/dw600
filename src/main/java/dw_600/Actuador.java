@@ -29,6 +29,11 @@ public class Actuador {
 		s.dontAcceptCount();
 		this.serial.write(Protocolo.getSense(), false);
 		
+		try {
+			Thread.sleep(10);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
 
 		cerrarTX();		
 		

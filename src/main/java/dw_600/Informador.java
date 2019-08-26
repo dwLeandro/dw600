@@ -31,11 +31,13 @@ public class Informador{
     
     
     public void informar (){
-             this.grabar();
+             
              if(ModeSafeGuard.instance().getCambiarEstado()) {
             	 this.cambiarEstado();
             	 ModeSafeGuard.instance().setCambiarEstado(false);
-             }    
+             }
+             
+             this.grabar();
     }
 
     private void cambiarEstado() {

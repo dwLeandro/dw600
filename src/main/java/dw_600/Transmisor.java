@@ -21,7 +21,7 @@ public class Transmisor implements Runnable{
         	}
         	
         	try{
-            	Thread.sleep(1400);
+            	Thread.sleep(1700);
          	}catch(Exception e){
         	
          	}

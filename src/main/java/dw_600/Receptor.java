@@ -6,6 +6,10 @@ import java.io.InputStream;
 import java.math.BigInteger;
 import static java.lang.System.exit;
 import java.util.Map;
+import java.util.logging.FileHandler;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import java.util.logging.SimpleFormatter;
 
 
 public class Receptor implements Runnable{
@@ -15,18 +19,35 @@ public class Receptor implements Runnable{
     ModeSafeGuard s = ModeSafeGuard.instance();
     byte[] cadenalargo;
     byte[] fin;
+    String dataAnterior = "";
+	private Decodificador decodificador;
+    Logger logger;
 
 
 
-
-    public Receptor ( InputStream in ,Ducit600 d)
+    public Receptor ( InputStream in ,Ducit600 d, Decodificador deco)
     {
         this.in = in;
         this.d = d;
+        this.decodificador = deco;
     }
     
     @Override
     public void run (){
+    	logger = Logger.getLogger("DbLog");  
+        FileHandler fh; 
+        
+        try {
+			fh = new FileHandler("C:/dw600/Log.log", true);
+			logger.addHandler(fh);
+	        SimpleFormatter formatter = new SimpleFormatter();  
+	        fh.setFormatter(formatter);  
+	        
+		} catch (SecurityException | IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}  
+        
         
         while(true){
 	
@@ -35,7 +56,7 @@ public class Receptor implements Runnable{
 	                
 	            }
 	            try{
-	                Thread.sleep(10);
+	                Thread.sleep(40);
 	            }catch(Exception e){
 	                
 	            }
@@ -64,9 +85,10 @@ public class Receptor implements Runnable{
      try{   
 
     String datos = String.format("%x", new BigInteger(1, paquete.data));
-  //  System.out.println(String.format("%x", new BigInteger(1, cadena)) + String.format("%x", fin[2]));
     
- 
+//    if(datos.equals(dataAnterior)) {
+//    	return true;
+//    }
     
     if(datos.startsWith("2d")) {
     	
@@ -90,13 +112,14 @@ public class Receptor implements Runnable{
     	return true;
     }
     
-
-
+//
+//    dataAnterior = datos;
+//    
      }catch(Exception e){}
           
 
      this.d.offerPaquete(paquete.data);
-
+     decodificador.iterar();
             
         }
 
@@ -199,7 +222,7 @@ public class Receptor implements Runnable{
 	    System.arraycopy(fin, 0, data, 0, x-3);
 	    
 	    if(largo != data.length) {
-	    //	System.out.println("Los largos no coinciden");
+	    	logger.log(Level.INFO, "Hay bytes duplicados en la cadena. Se procede a corregirlos");
 	    	data = this.fixData(data, data.length - largo);
 		}
 	    
@@ -212,9 +235,13 @@ public class Receptor implements Runnable{
     	byte[] temp = data;
 
     	for(int i = 0; i < largo && x < off; i++) {
-    		if((temp[i] == 0x10) && (temp[i+1] ==  0x10)) {
-    			temp = removerByte(temp, i);
-    			x++;
+    		if(i+1 < temp.length) {
+    			if((temp[i] == 0x10) && (temp[i+1] ==  0x10)) {
+    				temp = removerByte(temp, i + 1);
+    				x++;
+    			}
+    		} else {
+    			logger.log(Level.WARNING, "Se intento acceder a un posición inexistente mientras se corregia el byte duplicado");
     		}
     		
     	}

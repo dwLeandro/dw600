@@ -36,39 +36,7 @@ public class Ducit600 {
         d.auto();
     }
     
-    
-    
-     public static byte[] writeHexByteFromString( String hex)
-    {
-        byte[] t = new byte[hex.length()/2];// = new StringBuilder();
-        //49204c6f7665204a617661 split into 1 byte data len 49, 20, 4c...
-        for( int i=0, ii=0; i<hex.length()-1; i+=2 ,ii++){
-            //grab the hex in pairs
-            String output = hex.substring(i, (i + 2));
-            //convert hex to decimal
-            int decimal = Integer.parseInt(output, 16);
-            //convert the decimal to character
-            t[ii]=(byte)decimal;
-        }
 
-            return t;//.getBytes();
-    }
-     
-    public static String writeHexFromString( String hex)
-    {
-        StringBuilder t = new StringBuilder();
-        //49204c6f7665204a617661 split into 1 byte data len 49, 20, 4c...
-        for( int i=0; i<hex.length()-1; i+=2 ){
-            //grab the hex in pairs
-            String output = hex.substring(i, (i + 2));
-            //convert hex to decimal
-            int decimal = Integer.parseInt(output, 16);
-            //convert the decimal to character
-            t.append((char)decimal);
-        }
-
-            return t.toString();//.getBytes();
-    }
         
     public Ducit600(){
         this.respuestas = new LinkedList<Map<String, String>>();
@@ -78,17 +46,10 @@ public class Ducit600 {
         this.informacion = new Informacion();
 
         this.serial = new SerialCon();
-        
-       
-        
                 
 
     }
-    
-    public void esperar(){
-        Scanner sn = new Scanner(System.in);
-        sn.nextInt();
-    }
+
     
     
     public void auto(){
@@ -100,13 +61,13 @@ public class Ducit600 {
             
             this.transmisor = new Transmisor(this.serial);
             
-            this.decodificador = new Decodificador(respuestas, paquetes,this.params.getPatern());
-            
             this.informador = new Informador(informacion, params);
             
             this.analizador = new Analizador(this.respuestas, this.informacion, this.informador);
             
-            this.receptor = new Receptor(this.serial.inStream, this);
+            this.decodificador = new Decodificador(respuestas, paquetes,this.params.getPatern(), analizador);
+            
+            this.receptor = new Receptor(this.serial.inStream, this, decodificador);
 
             
           System.out.println("Conectado!");
@@ -135,6 +96,7 @@ public class Ducit600 {
     		e.printStackTrace();
     	}
     	
+    	ModeSafeGuard.instance().setCambiarEstado(true);
     	ModeSafeGuard.instance().acceptCount();
       	ModeSafeGuard.instance().habilitarCambioDeModo();
 
@@ -143,9 +105,8 @@ public class Ducit600 {
     
     private void init() {
         
-        new Thread(decodificador).start();
+
         new Thread(receptor).start();
-        new Thread(analizador).start();
 
 
         System.out.println("Obteniendo coonfiguracion...");
@@ -176,6 +137,9 @@ public class Ducit600 {
        
        
        actuador.setPattern(1);
+       
+       
+       informador.grabar();
 	}
 
 	private boolean conectar() {

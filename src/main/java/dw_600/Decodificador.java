@@ -14,26 +14,14 @@ import javax.script.ScriptException;
 
 
 
-public class Decodificador  implements Runnable{
+public class Decodificador {
     
     Map<String, String> decodeMap;
     LinkedList<Map<String, String>> respuestas;
     LinkedList<?> paquetes;
+	private Analizador analizador;
     
-    @Override
-    public void run (){
- 
-        while(true){
-             this.iterar();
-            
-            try{
-                Thread.sleep(100);
-            }catch(Exception e){
-                
-            }
-        }       
-    }
-    
+
     void  iterar(){
         Crudo paquete; 
 
@@ -43,13 +31,15 @@ public class Decodificador  implements Runnable{
             this.decodificar(paquete.cadena);
         }
         
+        analizador.analizar();
         paquete = null;
     }
     
-    public Decodificador (LinkedList<Map<String, String>> respuestas,LinkedList<?> paquetes,String patern){
+    public Decodificador (LinkedList<Map<String, String>> respuestas,LinkedList<?> paquetes,String patern, Analizador analizador){
         this.respuestas = respuestas;
         this.paquetes = paquetes;
         this.decodeMap = new HashMap<>();
+        this.analizador = analizador;
         
         if(!patern.isEmpty()){
             cargarPatrones(patern);

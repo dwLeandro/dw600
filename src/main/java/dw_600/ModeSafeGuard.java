@@ -54,7 +54,7 @@ public class ModeSafeGuard {
 	
 	public void dontAcceptCount() {
 		count = false;
-		cambiarEstado  = true;
+	//	cambiarEstado  = true;
 
 	}
 
