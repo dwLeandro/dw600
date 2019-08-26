@@ -220,9 +220,13 @@ public class Receptor implements Runnable{
     	byte[] temp = data;
 
     	for(int i = 0; i < largo && x < off; i++) {
-    		if((temp[i] == 0x10) && (temp[i+1] ==  0x10)) {
-    			temp = removerByte(temp, i);
-    			x++;
+    		if(i+1 < temp.length) {
+    			if((temp[i] == 0x10) && (temp[i+1] ==  0x10)) {
+    				temp = removerByte(temp, i + 1);
+    				x++;
+    			}
+    		} else {
+    			System.out.println("Se intento acceder a un posición inexistente mientras se corregia el byte duplicado");
     		}
     		
     	}

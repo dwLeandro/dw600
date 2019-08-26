@@ -23,7 +23,7 @@ public class JavaPostgreSQL {
         try {  
 
             // This block configure the logger with handler and formatter  
-            fh = new FileHandler("C:/dw600/Log.log");  
+            fh = new FileHandler("C:/dw600/Log.log", true);  
             logger.addHandler(fh);
             SimpleFormatter formatter = new SimpleFormatter();  
             fh.setFormatter(formatter);  
