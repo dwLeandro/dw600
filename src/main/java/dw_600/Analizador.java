@@ -5,7 +5,7 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Map;
 
-public class Analizador implements Runnable{
+public class Analizador{
     
     LinkedList<?> respuestas;
     Informacion informacion;
@@ -18,18 +18,18 @@ public class Analizador implements Runnable{
         this.informacion = i;
         this.informador = informador;
     }
-    @Override
-    public void run (){
-         while(true){
-             this.analizar();
-            
-            try{
-                Thread.sleep(100);
-            }catch(Exception e){
-                
-            }
-        }         
-    }
+//    @Override
+//    public void run (){
+//         while(true){
+//             this.analizar();
+//            
+//            try{
+//                Thread.sleep(100);
+//            }catch(Exception e){
+//                
+//            }
+//        }         
+//    }
     
     public void analizar(){
         Map<String,String> datos;
