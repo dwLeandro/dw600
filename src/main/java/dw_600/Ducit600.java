@@ -92,7 +92,6 @@ public class Ducit600 {
     	try {
     		Thread.sleep(1700);
     	} catch (InterruptedException e) {
-    		// TODO Auto-generated catch block
     		e.printStackTrace();
     	}
     	
@@ -168,7 +167,7 @@ void cerrarTX() {
     }
     catch ( Exception e )
     {
-        // TODO Auto-generated catch block
+
         e.printStackTrace();
     }
 	
@@ -188,8 +187,6 @@ boolean abrirTX() {
 
 void connectAfterChange() {
 	this.reset();
-
-//	this.auto();
 }
 
 }

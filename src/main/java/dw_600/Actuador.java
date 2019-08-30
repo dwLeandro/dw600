@@ -44,7 +44,6 @@ public class Actuador {
 				try {
 					Thread.sleep(150);
 				} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 			
@@ -58,7 +57,6 @@ public class Actuador {
 				try {
 					Thread.sleep(500);
 				} 	catch (InterruptedException e) {
-				// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 			
@@ -71,7 +69,6 @@ public class Actuador {
 		try {
 			Thread.sleep(250);
 		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
@@ -85,7 +82,6 @@ public class Actuador {
 	}
 
 	public void cerrarTX() {
-		//falta evaluar concurrencia
 		ducit.cerrarTX();
 	}
 	

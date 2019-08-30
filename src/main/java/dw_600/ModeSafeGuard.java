@@ -27,7 +27,6 @@ public class ModeSafeGuard {
 		try {
 			semaforo.acquire();
 		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
@@ -54,7 +53,6 @@ public class ModeSafeGuard {
 	
 	public void dontAcceptCount() {
 		count = false;
-	//	cambiarEstado  = true;
 
 	}
 

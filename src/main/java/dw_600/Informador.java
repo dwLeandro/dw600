@@ -68,7 +68,6 @@ public class Informador{
         try {
 			Thread.sleep(5);
 		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
         this.enviada.atm.putAll(this.informacion.atm);

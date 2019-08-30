@@ -22,13 +22,11 @@ public class JavaPostgreSQL {
 
         try {  
 
-            // This block configure the logger with handler and formatter  
             fh = new FileHandler("C:/dw600/Log.log", true);  
             logger.addHandler(fh);
             SimpleFormatter formatter = new SimpleFormatter();  
             fh.setFormatter(formatter);  
 
-            // the following statement is used to log any messages  
             logger.info("Inicio programa");  
 
         } catch (SecurityException e) {  
@@ -67,7 +65,7 @@ public class JavaPostgreSQL {
             Connection conn = null;
             Class.forName("org.postgresql.Driver");
             conn = DriverManager.getConnection(url, props);
-            //System.out.println("Connected to the PostgreSQL server successfully.");
+
             this.conexion = conn;
             return conn;
         } catch (Exception e) {
@@ -86,7 +84,6 @@ public class JavaPostgreSQL {
         String url = "";
         Connection connection = null;
         try {
-            // Registramos el driver de PostgresSQL
             try {
                 Class.forName("org.postgresql.Driver");
             } catch (ClassNotFoundException ex) {
@@ -95,8 +92,7 @@ public class JavaPostgreSQL {
 
             
             url = "jdbc:postgresql://" + host + ":" + port + "/" + database;
-            // Database connect
-            // Conectamos con la base de datos
+
             connection = DriverManager.getConnection(
                     url,
                     user, password);

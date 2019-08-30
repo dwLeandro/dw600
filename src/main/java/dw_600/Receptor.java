@@ -44,7 +44,6 @@ public class Receptor implements Runnable{
 	        fh.setFormatter(formatter);  
 	        
 		} catch (SecurityException | IOException e1) {
-			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}  
         
@@ -80,7 +79,6 @@ public class Receptor implements Runnable{
             paquete.raw += String.format("%x", new BigInteger(1, this.fin));
             cadena = this.armarTrama(paquete);
             crc = Bytes.doCheckSum(cadena);
-  //          System.out.println(String.format("%x", crc));
             
      try{   
 
@@ -101,7 +99,7 @@ public class Receptor implements Runnable{
     
     if(datos.startsWith("2a")) {
 
-  	  if(!ModeSafeGuard.instance().getCount() /* || this.validar(datos)*/) {
+  	  if(!ModeSafeGuard.instance().getCount()) {
   		return true;
   		}
     }  
@@ -131,8 +129,6 @@ public class Receptor implements Runnable{
 
 
 	private byte[] armarTrama(Paquete paquete) {
-
-	    // create a destination array that is the size of the arrays
 	    
 	    byte[] etx = new byte[1];
 	    etx[0] = this.fin[1];
@@ -251,27 +247,12 @@ public class Receptor implements Runnable{
     
     
     byte readByte(){
-            try{
-               // Thread.sleep(10);
-            }
-            catch(Exception e){
-             System.out.println("Se produjo un error al intentar leer en el puerto serie");
-            exit(1);           
-            }
         byte[] readBuffer = new byte[1];
         try {
            int availableBytes = 0;
            while (!(availableBytes > 0)) {
                availableBytes = this.in.available();
-            try{
-               // Thread.sleep(10);
-            }
-            catch(Exception e){
-             System.out.println("Se produjo un error al intentar leer en el puerto serie");
-            exit(1);           
-            }
            }
-           //System.out.println((int)readBuffer[0]);
            this.in.read(readBuffer, 0, 1);
            return readBuffer[0];
            
@@ -282,9 +263,5 @@ public class Receptor implements Runnable{
        return readBuffer[0];    
     }
     
-
-    
-
-
 
 }

@@ -18,19 +18,7 @@ public class Analizador{
         this.informacion = i;
         this.informador = informador;
     }
-//    @Override
-//    public void run (){
-//         while(true){
-//             this.analizar();
-//            
-//            try{
-//                Thread.sleep(100);
-//            }catch(Exception e){
-//                
-//            }
-//        }         
-//    }
-    
+
     public void analizar(){
         Map<String,String> datos;
         String rt;

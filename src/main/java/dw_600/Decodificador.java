@@ -114,9 +114,7 @@ public class Decodificador {
                 
                 ){
         datos.put("RECORD_TYPE", Integer.toHexString((int) cadena[0]));
-        procesar_patron(datos,c, decodeMap.get(Integer.toHexString((int) cadena[0])));
-//        System.out.println(String.format("%x", new BigInteger(1, cadena)));
-        
+        procesar_patron(datos,c, decodeMap.get(Integer.toHexString((int) cadena[0])));    
         	return datos;
 
         }
