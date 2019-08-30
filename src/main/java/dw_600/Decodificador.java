@@ -198,7 +198,7 @@ public class Decodificador {
                 bytes = s;
                 str="";
                 for(Integer ii=0;ii<bytes.length;ii++){   
-                   str+=  ConvertByteAString2(bytes[ii]);
+                   str+=  Bytes.ConvertByteAString(bytes[ii]);
                 }
                 return str;
 
@@ -211,7 +211,7 @@ public class Decodificador {
 
                 if(bytes.length < 4) {
                   for (int i = 0; i < bytes.length; i++) {
-                	str+=  ConvertByteAString2(bytes[i]);
+                	str+=  Bytes.ConvertByteAString(bytes[i]);
                   }
                 
                   p = Integer.parseUnsignedInt(str, 2);
@@ -236,7 +236,7 @@ public class Decodificador {
                 bytes = s;
                 str="";
                 for(Integer ii=0;ii<bytes.length;ii++){
-                   str+=  ConvertByteAString2(bytes[ii]);
+                   str+=  Bytes.ConvertByteAString(bytes[ii]);
                 }
                 return str;
         
@@ -244,20 +244,6 @@ public class Decodificador {
         return "";
     }
     
- 
-    String ConvertByteAString2(byte bb){
-        
-        int b = Byte.toUnsignedInt(bb);
-
-        
-        String binario = Integer.toBinaryString(b);
-        
-        String padded  = String.format("%8s", binario).replace(' ', '0');
-        
-        return padded;
-
-    } 
-
     
     String reemplazarReferencia(Map<String,String> datos,String referencia){
         

@@ -29,6 +29,7 @@ public class SocketCon implements Runnable{
 
 	@Override
 	public void run() {
+
 		
 		try {
 			socket = IO.socket(path);

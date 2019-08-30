@@ -79,7 +79,7 @@ public class Receptor implements Runnable{
             paquete.fin = String.format("%x", new BigInteger(1, this.fin));
             paquete.raw += String.format("%x", new BigInteger(1, this.fin));
             cadena = this.armarTrama(paquete);
-            crc = checkSum(cadena);
+            crc = Bytes.doCheckSum(cadena);
   //          System.out.println(String.format("%x", crc));
             
      try{   
@@ -237,7 +237,7 @@ public class Receptor implements Runnable{
     	for(int i = 0; i < largo && x < off; i++) {
     		if(i+1 < temp.length) {
     			if((temp[i] == 0x10) && (temp[i+1] ==  0x10)) {
-    				temp = removerByte(temp, i + 1);
+    				temp = Bytes.removerByte(temp, i + 1);
     				x++;
     			}
     		} else {
@@ -282,40 +282,9 @@ public class Receptor implements Runnable{
        return readBuffer[0];    
     }
     
-    public static final byte checkSum(byte[] bytes) {
-    	   byte sum = 0;
-    	   for (byte b : bytes) {
-    	      sum ^= b;
-    	   }
-    	   return sum;
-    	}
+
     
 
-	public static byte[] removerByte(byte[] bytes, int index) { 
-				if (bytes == null || index < 0 || index >= bytes.length) { 
-					return bytes; 
-				} 
 
-		// Create another array of size one less 
-				byte[] temp = new byte[bytes.length - 1]; 
-
-		// Copy the elements except the index 
-		// from original array to the other array 
-				for (int i = 0, k = 0; i < bytes.length; i++) { 
-
-		// if the index is 
-		// the removal element index 
-					if (i == index) { 
-						continue; 
-					} 
-
-		// if the index is not 
-		// the removal element index 
-					temp[k++] = bytes[i]; 
-				} 
-
-		// return the resultant array 
-				return temp; 
-		}
 
 }
